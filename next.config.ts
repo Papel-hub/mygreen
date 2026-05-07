@@ -1,5 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  /* Configurações experimentais (opcional, mas recomendado para evitar bugs do Turbopack) */
+  experimental: {
+    // Desativa o Turbopack se estiver causando erros de build inesperados
+    // turbo: false, 
+  },
+
   images: {
     remotePatterns: [
       // Bing
@@ -29,7 +36,7 @@ const nextConfig = {
       // Apple
       { protocol: 'https', hostname: 'appleid.apple.com' },
 
-      // Twitter
+      // Twitter/X
       { protocol: 'https', hostname: 'pbs.twimg.com' },
 
       // Discord
@@ -44,14 +51,17 @@ const nextConfig = {
       // Imgur
       { protocol: 'https', hostname: 'i.imgur.com' },
 
-      // Outros domínios que você usa
+      // Outros
       { protocol: 'https', hostname: 'placehold.co' },
       { protocol: 'https', hostname: 'img.evbuc.com', pathname: '/**' },
-      { protocol: 'https', hostname: 'yourdomain.com' },
+      
+      // SEU DOMÍNIO DE PRODUÇÃO (Substitua pelo seu domínio real quando deployar)
+      { protocol: 'https', hostname: 'meuapp.com' }, 
+      
+      // Pravatar (para desenvolvimento/testes)
       { protocol: 'https', hostname: 'i.pravatar.cc' },
-
     ],
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
