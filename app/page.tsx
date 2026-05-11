@@ -11,7 +11,7 @@ export default function SplashScreen() {
     // Opcional: adicionar um pequeno delay para mostrar a tela de splash
     const timer = setTimeout(() => {
       router.replace('/login'); // Use '/home' se for rota absoluta, ou 'home' se relativa
-    }, 1500); // 1.5 segundos de delay
+    }, 3500); // 1.5 segundos de delay
 
     return () => clearTimeout(timer); // Limpa o timer se o componente desmontar
   }, [router]);
