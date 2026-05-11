@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Image from 'next/image';
+
 import "./globals.css";
 
 
@@ -41,8 +43,17 @@ export default function RootLayout({
         <meta name="color-scheme" content="light dark" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className="font-sans antialiased bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
-        <div className="relative z-10">{children}</div>
+      <body className="font-sans antialiased text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
+
+              <div className=" w-full h-full ">
+                <Image
+                  src="/fundo.svg"
+                  alt="MY GREEN - Bem-vindo!"
+                  fill
+                />
+             
+        <div className="relative z-10">{children}</div> 
+        </div>
       </body>
     </html>
   );

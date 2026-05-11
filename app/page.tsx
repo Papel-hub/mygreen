@@ -4,50 +4,85 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-export default function WelcomePageRedirect() {
-  const router = useRouter();
+export default function SplashScreen() {
+    const router = useRouter();
 
   useEffect(() => {
     // Opcional: adicionar um pequeno delay para mostrar a tela de splash
     const timer = setTimeout(() => {
-      router.replace('/home'); // Use '/home' se for rota absoluta, ou 'home' se relativa
+      router.replace('/login'); // Use '/home' se for rota absoluta, ou 'home' se relativa
     }, 1500); // 1.5 segundos de delay
 
     return () => clearTimeout(timer); // Limpa o timer se o componente desmontar
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-[#0F5A2A] flex flex-col items-center justify-center px-4 relative overflow-hidden">
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-center px-6 overflow-hidden">
       
-      {/* Logo com animação de entrada */}
-      <div className="animate-fade-in-up mb-8">
+      {/* 1. Imagem de Fundo (Trevos/Shamrocks) */}
+      <div className="absolute inset-0 z-0">
         <Image
-          src="/logo0.svg"
-          alt="MY GREEN - Bem-vindo!"
-          width={160}
-          height={60}
+          src="https://tse1.mm.bing.net/th/id/OIP.vffDfFub2iP_s3K6MnvkRQHaEO?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" // Substitua pela sua imagem de paisagem
+          alt="Shamrock Background"
+          fill
+          className="object-cover"
           priority
-          className="drop-shadow-lg"
-          style={{ height: 'auto', width: 'auto' }}
         />
+        {/* Overlay escuro/gradiente para dar profundidade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-green-900/40 to-black/80" />
       </div>
 
-      {/* Spinner com cor correta e animação suave */}
-      <div className="relative">
-        <div className="w-10 h-10 border-4 border-white/30 border-t-[#3FAF5C] rounded-full animate-spin"></div>
-        {/* Efeito de brilho sutil atrás do spinner */}
-        <div className="absolute inset-0 w-10 h-10 bg-[#3FAF5C]/20 blur-xl rounded-full animate-pulse"></div>
+      {/* 2. Conteúdo Principal */}
+      <div className="relative z-10 flex flex-col items-center w-full max-w-sm">
+        
+        {/* Emblema Circular (Logo) */}
+        <div className="relative w-64 h-64 mb-10">
+          {/* Aqui você deve colocar a imagem do seu logo circular (logo-badge.png) */}
+          <Image
+            src="/main-logo-badge.png" 
+            alt="Ireland My Green Diamond Badge"
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        {/* Título Principal */}
+        <h1 className="text-white text-5xl md:text-6xl font-serif text-center leading-tight drop-shadow-lg">
+          My Green<br />Diamond
+        </h1>
+
+        {/* Subtítulo Dourado */}
+        <p className="text-[#D4AF37] text-xl font-light italic mt-3 tracking-wide">
+          For All Occasions
+        </p>
+
+        {/* 3. Divisor Elegante (Linha com Trevo) */}
+        <div className="flex items-center w-full mt-10">
+          <div className="h-[1.5px] flex-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-[#D4AF37]"></div>
+          
+          {/* Ícone de Trevo no Centro */}
+          <div className="mx-4 text-[#D4AF37] text-2xl">
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="currentColor" 
+              className="w-8 h-8 drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+            >
+              <path d="M12,11.5c0-1.9-1.5-3.5-3.5-3.5s-3.5,1.6-3.5,3.5c0,1.2,0.6,2.3,1.5,2.9c-0.9,0.7-1.5,1.7-1.5,2.9c0,1.9,1.6,3.5,3.5,3.5s3.5-1.6,3.5-3.5 c0-1.2-0.6-2.3-1.5-2.9C11.4,13.8,12,12.7,12,11.5z M12,11.5c0-1.9,1.5-3.5,3.5-3.5s3.5,1.6,3.5,3.5c0,1.2-0.6,2.3-1.5,2.9 c0.9,0.7,1.5,1.7,1.5,2.9c0,1.9-1.6,3.5-3.5,3.5s-3.5-1.6-3.5-3.5c0-1.2,0.6-2.3,1.5-2.9C12.6,13.8,12,12.7,12,11.5z M12,11.5 c0,1.9,1.5,3.5,3.5,3.5s3.5,1.6,3.5,3.5s-1.6,3.5-3.5,3.5s-3.5-1.6-3.5-3.5c0-1.2,0.6-2.3,1.5-2.9c-0.9-0.7-1.5-1.7-1.5-2.9 c0-1.9,1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5" />
+            </svg>
+          </div>
+
+          <div className="h-[1.5px] flex-1 bg-gradient-to-l from-transparent via-[#D4AF37] to-[#D4AF37]"></div>
+        </div>
+
+        {/* 4. Spinner de Carregamento (Loading) */}
+        <div className="mt-16">
+          <div className="w-10 h-10 border-2 border-white/20 border-t-[#D4AF37] rounded-full animate-spin"></div>
+        </div>
+
       </div>
 
-      {/* Mensagem de carregamento */}
-      <p className="mt-6 text-white/90 text-sm font-medium tracking-wide animate-fade-in">
-        Preparando sua experiência...
-      </p>
-
-      {/* Barra de progresso sutil (opcional) */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-        <div className="h-full bg-[#3FAF5C] animate-progress-bar"></div>
-      </div>
+      {/* Pequeno detalhe de luz no rodapé */}
+      <div className="absolute bottom-8 z-10 w-2 h-2 bg-[#D4AF37] rounded-full blur-[2px] opacity-80" />
     </div>
   );
 }
