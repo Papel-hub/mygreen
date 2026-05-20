@@ -46,9 +46,11 @@ export default function WelcomePage() {
           CREATE ACCOUNT
         </button>
 
-        <button className="w-full bg-transparent text-white font-medium py-4 rounded-lg border border-[#D4AF37] hover:bg-white/10 transition-colors">
-          CONTINUE AS GUEST
-        </button>
+          <Link 
+            href='/home'
+            className="w-full flex items-center justify-center space-x-3 bg-black/40 border border-[#D4AF37] py-3 rounded-lg hover:bg-black/60">
+            <span className="text-white text-sm font-semibold tracking-wider">CONTINUE AS GUEST</span>
+              </Link>
 
         {/* Divisor "OR" */}
         <div className="flex items-center justify-center py-4">

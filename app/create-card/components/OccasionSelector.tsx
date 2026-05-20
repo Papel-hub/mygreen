@@ -28,7 +28,7 @@ export default function OccasionSelector({ selected, onChange }: { selected: Occ
             onClick={() => toggleOccasion(occasion)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
               selected.includes(occasion)
-                ? 'bg-green-600 text-white border-green-600 shadow-md'
+                ? 'bg-[#042414] text-white border-green-600 shadow-md'
                 : 'bg-white text-gray-700 border-gray-300 hover:border-green-400 hover:text-green-600'
             }`}
           >

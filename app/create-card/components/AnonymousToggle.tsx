@@ -12,7 +12,7 @@ export default function AnonymousToggle({ checked, onChange }: { checked: boolea
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 ${
-          checked ? 'bg-green-600' : 'bg-gray-300'
+          checked ? 'bg-[#042414]' : 'bg-gray-300'
         }`}
       >
         <span
