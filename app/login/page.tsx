@@ -60,10 +60,12 @@ export default function WelcomePage() {
         </div>
 
         {/* Botões de Parceiro */}
-        <button className="w-full flex items-center justify-center space-x-3 bg-black/40 border border-[#D4AF37] py-3 rounded-lg hover:bg-black/60">
+        <Link
+         href='/partner'
+         className="w-full flex items-center justify-center space-x-3 bg-black/40 border border-[#D4AF37] py-3 rounded-lg hover:bg-black/60">
           <UserIcon className="w-5 h-5 text-[#D4AF37]" />
-          <span className="text-white text-sm font-semibold tracking-wider">PARTNER LOGIN</span>
-        </button>
+          <span className="text-white text-sm font-semibold tracking-wider">PARTNER DRIVER</span>
+        </Link>
 
         <button className="w-full flex items-center justify-center space-x-3 bg-black/40 border border-[#D4AF37] py-3 rounded-lg hover:bg-black/60">
           <div className="w-5 h-5 text-[#D4AF37]">☘️</div> {/* Ícone de trevo */}

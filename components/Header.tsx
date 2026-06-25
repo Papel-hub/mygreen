@@ -33,7 +33,7 @@ export default function CreateCardHeader({ title, backTo = '/home' }: HeaderProp
           >
             <ArrowLeft size={22} />
           </Link>
-          <h1 className="text-xl font-semibold tracking-wide">
+        <h1 className="flex-1 text-center text-lg font-semibold tracking-tight">
             {title}
           </h1>
         </div>
