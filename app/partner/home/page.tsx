@@ -1,141 +1,131 @@
-"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { 
+  Menu, 
+  Bell, 
+  Star, 
+  MapPin, 
+  Clock, 
+  LayoutDashboard, 
+  ClipboardList, 
+  Truck, 
+  User 
+} from "lucide-react";
 
-import React, { useState } from 'react';
-import { MapPin, Navigation, DollarSign, Clock, ShoppingBag, Power, User, ShieldCheck, ChevronRight } from 'lucide-react';
+import NewRequests from '@/app/partner/home/components/NewRequests';
+import ActiveDelivery from '@/app/partner/home/components/ActiveDelivery';
 
-export default function DriverHomePage() {
-  const [isOnline, setIsOnline] = useState(true);
-  
-  // Dados simulados baseados no mercado da Irlanda (€)
-  const [todayEarnings, setTodayEarnings] = useState('84.50');
-  const [completedDeliveries, setCompletedDeliveries] = useState(4);
-  const [hoursOnline, setHoursOnline] = useState('3.5');
 
+
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-white flex flex-col antialiased font-sans">
+    <main className="min-h-screen bg-[#f4f7f4] pb-24 font-sans antialiased text-gray-900">
       
-      {/* 1. TOP BAR / NAVBAR */}
-      <header className="bg-white/80 border-b border-neutral-900 px-4 py-3 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-full bg-neutral-900 border border-[#169B62] flex items-center justify-center text-sm shadow-md">
-            👤
-          </div>
-          <div>
-            <h2 className="text-xs font-bold text-white tracking-wide uppercase">John Doe</h2>
-            <div className="flex items-center space-x-1">
-              <ShieldCheck size={12} className="text-[#169B62]" />
-              <span className="text-[10px] text-neutral-400">Verified Courier</span>
-            </div>
-          </div>
-        </div>
-
-        {/* TOGGLE STATUS: ONLINE / OFFLINE (YANGO STYLE) */}
-        <button 
-          onClick={() => setIsOnline(!isOnline)}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-full font-bold text-xs tracking-wider uppercase transition-all duration-300 shadow-md ${
-            isOnline 
-              ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20' 
-              : 'bg-neutral-800 hover:bg-neutral-700 text-neutral-400 border border-neutral-700'
-          }`}
-        >
-          <Power size={14} className={isOnline ? 'animate-pulse' : ''} />
-          <span>{isOnline ? 'Online' : 'Offline'}</span>
-        </button>
-      </header>
-
-      {/* 2. LIVE MAP AREA (SIMULADO POR CSS COM ESTILO ESCURO DE LOGÍSTICA) */}
-      <main className="flex-1 relative w-full overflow-hidden flex flex-col justify-between">
-        
-        {/* Mock de Mapa de Fundo */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-neutral-950 to-white z-0 opacity-80">
-          {/* Linhas de grade simulando ruas do mapa */}
-          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      {/* 1. Header Verde Superior (conforme image_1b65b0.png) */}
+      <div className="bg-[#169B62] text-white pt-12 pb-24 px-6 rounded-b-lg relative shadow-lg">
+        <div className="flex items-center justify-between max-w-md mx-auto">
+          {/* Botão Menu Lateral */}
+          <button className="p-1 hover:opacity-80 transition">
+            <Menu size={24} />
+          </button>
           
-          {/* Indicador de localização atual do motorista */}
-          {isOnline && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-              <div className="w-4 h-4 bg-sky-500 rounded-full animate-ping absolute"></div>
-              <div className="w-4 h-4 bg-[#169B62] border-2 border-white rounded-full shadow-lg relative z-10"></div>
-              <div className="mt-2 bg-white/80 border border-neutral-800 text-[9px] text-neutral-300 px-2 py-0.5 rounded-md backdrop-blur-sm whitespace-nowrap">
-                📍 Dublin City Centre
-              </div>
-            </div>
-          )}
+          {/* Saudação Central */}
+          <div className="text-center">
+            <h1 className="text-xl font-bold tracking-wide">Hello, User!</h1>
+            <p className="text-xs text-emerald-200/90 mt-0.5">Ready to deliver today?</p>
+          </div>
+          
+          {/* Ícone de Notificação com Badge */}
+          <button className="p-1 relative hover:opacity-80 transition">
+            <Bell size={24} />
+            <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#] rounded-full border border-[#169B62]" />
+          </button>
         </div>
+      </div>
 
-        {/* CARD DE GANHOS DO DIA (RÁPIDO ACESSO) */}
-        <div className="relative z-10 p-4 w-full max-w-md mx-auto mt-2">
-          <div className="bg-white/60 border border-neutral-900 backdrop-blur-md rounded-xl p-4 grid grid-cols-3 gap-2 text-center shadow-lg">
-            <div>
-              <div className="flex items-center justify-center text-neutral-500 mb-0.5">
-                <DollarSign size={14} className="text-[#169B62]" />
-              </div>
-              <span className="text-base font-white text-white">€{todayEarnings}</span>
-              <p className="text-[9px] text-neutral-500 uppercase tracking-wider mt-0.5">Earnings</p>
+      {/* Container de Conteúdo Flutuante */}
+      <div className="max-w-md mx-auto px-5 -mt-16 space-y-6 relative z-10">
+        
+        {/* 2. Card de Performance (Your Performance) */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center justify-between">
+          <div className="w-1/2 border-r border-gray-100 pr-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Your Performance</p>
+            <div className="flex items-center gap-1.5 mt-2">
+              <span className="text-2xl font-bold text-gray-900">4.8</span>
+              <Star size={18} className="fill-amber-400 text-amber-400" />
             </div>
-            <div className="border-x border-neutral-900">
-              <div className="flex items-center justify-center text-neutral-500 mb-0.5">
-                <ShoppingBag size={14} />
-              </div>
-              <span className="text-base font-white text-white">{completedDeliveries}</span>
-              <p className="text-[9px] text-neutral-500 uppercase tracking-wider mt-0.5">Orders</p>
-            </div>
-            <div>
-              <div className="flex items-center justify-center text-neutral-500 mb-0.5">
-                <Clock size={14} />
-              </div>
-              <span className="text-base font-white text-white">{hoursOnline}h</span>
-              <p className="text-[9px] text-neutral-500 uppercase tracking-wider mt-0.5">Online Time</p>
-            </div>
+            <p className="text-[11px] text-gray-400 mt-1">Average Rating</p>
+          </div>
+          
+          <div className="w-1/2 pl-6">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 invisible">Space</p>
+            <span className="text-2xl font-bold text-gray-900 mt-2 block">12</span>
+            <p className="text-[11px] text-gray-400 mt-1">Completed Deliveries</p>
           </div>
         </div>
 
-        {/* 3. BOTTOM PANEL: INTERAÇÃO DE CORRIDA */}
-        <div className="relative z-10 p-4 w-full max-w-md mx-auto mb-4">
-          {isOnline ? (
-            /* ESTADO 1: ONLINE E AGUARDANDO PEDIDOS */
-            <div className="bg-white/90 border border-[#169B62]/20 backdrop-blur-xl rounded-2xl p-5 text-center shadow-2xl space-y-4">
-              <div className="flex justify-center">
-                <div className="w-12 h-12 rounded-full bg-[#169B62]/10 flex items-center justify-center text-[#169B62] border border-[#169B62]/30 animate-pulse">
-                  <Navigation size={22} className="rotate-45" />
-                </div>
-              </div>
-              <div>
-                <h3 className="text-sm font-bold tracking-wider uppercase text-[#169B62]">Looking for Flower Orders</h3>
-                <p className="text-xs text-neutral-400 mt-1">Stay near high-demand areas in Dublin for quick match.</p>
-              </div>
-              
-              {/* Notificação Fictícia de Zona de Alta Demanda */}
-              <div className="bg-neutral-900/50 border border-neutral-800/80 rounded-xl p-3 flex items-center justify-between text-left">
-                <div className="flex items-center space-x-3">
-                  <span className="text-lg">🔥</span>
-                  <div>
-                    <h4 className="text-xs font-semibold text-neutral-200">High Demand Zone Nearby</h4>
-                    <p className="text-[10px] text-neutral-500">Dublin 2 / Grafton St area has 3+ pending shops</p>
-                  </div>
-                </div>
-                <ChevronRight size={14} className="text-neutral-500" />
-              </div>
-            </div>
-          ) : (
-            /* ESTADO 2: OFFLINE */
-            <div className="bg-neutral-900/90 border border-neutral-800 backdrop-blur-xl rounded-2xl p-5 text-center shadow-2xl">
-              <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center mx-auto text-neutral-500 mb-3">
-                <Power size={18} />
-              </div>
-              <h3 className="text-sm font-bold text-neutral-300 uppercase tracking-wider">You are Currently Offline</h3>
-              <p className="text-xs text-neutral-500 mt-1 mb-4">Switch your status to Online to start receiving delivery requests.</p>
-              <button 
-                onClick={() => setIsOnline(true)}
-                className="w-full py-3 bg-[#169B62] hover:bg-[#0E6F46] text-white font-extrabold rounded-xl text-xs uppercase tracking-wider transition"
-              >
-                Go Online Now
-              </button>
-            </div>
-          )}
+        {/* 3. Seção: Active Delivery */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-bold text-gray-800 text-base">Active Delivery</h2>
+            <span className="bg-emerald-200 text-[#169B62] text-xs font-bold px-3 py-1 rounded-full">
+              En Route
+            </span>
+          </div>
+          {/* Card Detalhado da Entrega Ativa */}
+          <ActiveDelivery/>
         </div>
 
-      </main>
-    </div>
+        {/* 4. Seção: New Delivery Requests */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-bold text-gray-800 text-base">New Delivery Requests</h2>
+            <span className="bg-[#] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+              2
+            </span>
+          </div>
+
+          {/*  Card de Proposta de Nova Entrega */}
+        <NewRequests/>
+        </div>
+
+      </div>
+
+      {/* 5. Barra de Navegação Inferior (Bottom Nav Bar) */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 z-50 shadow-xl">
+        <div className="max-w-md mx-auto flex justify-between items-center">
+          
+          <Link 
+          href="/parter/home"
+          className="flex flex-col items-center gap-1 text-[#169B62] flex-1 py-1">
+            <LayoutDashboard size={20} className="stroke-[2.5]" />
+            <span className="text-[10px] font-bold">Dashboard</span>
+          </Link>
+          
+          <Link 
+          href="/parter/Requests"
+          className="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600 flex-1 py-1">
+            <ClipboardList size={20} />
+            <span className="text-[10px] font-medium">Requests</span>
+          </Link>
+          
+          <Link 
+          href="/parter/deliveries"
+          className="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600 flex-1 py-1">
+            <Truck size={20} />
+            <span className="text-[10px] font-medium">Deliveries</span>
+          </Link>
+          
+          <Link 
+          href="/parter/profile"
+          className="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600 flex-1 py-1">
+            <User size={20} />
+            <span className="text-[10px] font-medium">Profile</span>
+          </Link>
+          
+        </div>
+      </nav>
+
+    </main>
   );
 }
