@@ -1,56 +1,108 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-
+import { useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function PartnerDriverSplashScreen() {
-      const router = useRouter();
-  
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        router.replace('/partner/login'); // Use '/home' se for rota absoluta, ou 'home' se relativa
-      }, 2500); 
-  
-      return () => clearTimeout(timer); 
-    }, [router]);                   
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      router.replace("/partner/login");
+    }, 1800);
+
+    return () => window.clearTimeout(timer);
+  }, [router]);
 
   return (
-    <main className="relative min-h-screen w-full flex flex-col items-center justify-between py-12 px-6 overflow-hidden">
-      
-      {/* Container do Conteúdo Principal */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm z-10 my-auto">
-        
-        {/* Seção do Logotipo */}
-        <div className="relative w-48 h-48 mb-10 flex items-center justify-center">
-          {/* Substitua pelo caminho real do seu logo exportado */}
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-white via-[#F7FFF9] to-[#E8FFF2] px-6">
+
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+
+        <div className="absolute -top-32 -left-32 h-80 w-80 rounded-full bg-[#169B62]/10 blur-3xl" />
+
+        <div className="absolute right-0 bottom-0 h-[420px] w-[420px] rounded-full bg-[#169B62]/10 blur-3xl" />
+
+      </div>
+
+      <div className="relative z-10 flex w-full max-w-md flex-col items-center">
+
+        {/* Logo */}
+
+        <div className="relative h-44 w-44 animate-[pulse_3s_ease-in-out_infinite]">
+
           <Image
-            src="/images/logo0.svg" 
-            alt="Ireland My Green Diamond Logo"
-            width={192}
-            height={192}
+            src="/images/logo0.svg"
+            alt="Ireland My Green Diamond"
+            fill
             priority
             className="object-contain"
           />
+
         </div>
 
-        {/* Título Principal */}
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-wide text-[#0b663b] font-sans leading-tight">
-          PARTNER DRIVER
+        {/* Title */}
+
+        <h1 className="mt-6 text-center text-4xl font-extrabold tracking-tight text-[#169B62]">
+
+          Partner Driver
+
         </h1>
 
-        {/* Subtítulo / Descrição */}
-        <p className="mt-4 text-gray-600 font-normal leading-relaxed text-base max-w-[280px]">
-          Delivering happiness. <br />
-          One card, one bouquet at a time.
+        {/* Subtitle */}
+
+        <p className="mt-4 max-w-xs text-center text-base leading-7 text-gray-600">
+
+          Deliver with freedom,
+          manage your deliveries and
+          track your earnings in one place.
+
         </p>
+
+        {/* Illustration */}
+
+        <div className="relative mt-10 h-48 w-full max-w-xs">
+
+          <Image
+            src="/images/driver-welcome-illustration.png"
+            alt="Partner Driver"
+            fill
+            className="object-contain"
+            priority
+          />
+
+        </div>
+
+        {/* Loading */}
+
+        <div className="mt-8 flex flex-col items-center">
+
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#169B62]/20 border-t-[#169B62]" />
+
+          <p className="mt-5 text-sm font-medium tracking-wide text-gray-500">
+
+            Preparing your workspace...
+
+          </p>
+
+        </div>
+
       </div>
 
-        {/* 4. Spinner de Carregamento (Loading) */}
-        <div className="mt-14">
-          <div className="w-10 h-10 border-2 border-white/20 border-t-[#169B62] rounded-full animate-spin"></div>
-        </div>
+      {/* Footer */}
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+
+        <p className="text-xs tracking-wide text-gray-400">
+
+          Ireland My Green Diamond
+
+        </p>
+
+      </div>
+
     </main>
   );
 }
