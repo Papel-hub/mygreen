@@ -1,9 +1,15 @@
 import React from 'react';
-import { ArrowLeft, MapPin, 
+import { ArrowLeft, 
     Phone, MessageSquare, Star, Car } from 'lucide-react';
 
-export default function Tracking({ onBack }) {
-  // Passos do progresso
+interface TrackingProps {
+  onBack: () => void;
+}
+
+export default function Tracking({
+  onBack,
+}: TrackingProps) {
+
   const steps = [
     { label: "Confirmed", active: true, done: true },
     { label: "On the way", active: true, done: false },
@@ -119,7 +125,7 @@ export default function Tracking({ onBack }) {
               <img src="/api/placeholder/100/100" alt="Sean O'Connor" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-800 text-sm">Sean O'Connor</h4>
+              <h4 className="font-bold text-gray-800 text-sm">Sean O&apos;Connor</h4>
               <div className="flex items-center gap-1 text-xs text-gray-500 mt-0.5">
                 <span className="font-bold text-gray-700">4.9</span>
                 <Star className="w-3 h-3 fill-amber-400 text-amber-400" />

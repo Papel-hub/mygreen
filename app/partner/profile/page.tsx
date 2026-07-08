@@ -4,10 +4,19 @@ import Link from "next/link";
 import { PenSquare, Star,
     LayoutDashboard, 
   ClipboardList, 
-  ShieldCheck, Car, CheckCircle2, Clock, Calendar, Home, Inbox, Truck, User } from 'lucide-react';
+  ShieldCheck, Car, CheckCircle2, Clock, Calendar, Truck, User } from 'lucide-react';
 
-export default function UserProfile({ onEdit, onNavigate }) {
+  interface UserProfileProps {
+  onEdit: () => void;
+  onNavigate : () => void;
+}
+
+export default function UserProfile({
+  onEdit,
+  onNavigate,
+}: UserProfileProps) {
   return (
+
     <div className="max-w-md mx-auto bg-gray-50 min-h-screen shadow-lg flex flex-col font-sans relative">
       
       {/* Cabeçalho Verde de Fundo */}

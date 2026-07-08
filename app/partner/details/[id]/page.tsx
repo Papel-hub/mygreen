@@ -3,21 +3,21 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import useRequest from "@/hooks/useRequest";
-import useRealtimeRequest from "@/hooks/useRealtimeRequest";
+import useRequest from "@/hook/useRequest";
+import useRealtimeRequest from "@/hook/useRealtimeRequest";
 
-import RequestHeader from "@/components/request/RequestHeader";
-import StatusBanner from "@/components/request/StatusBanner";
-import Countdown from "@/components/request/Countdown";
-import OrderInformation from "@/components/request/OrderInformation";
-import RouteCard from "@/components/request/RouteCard";
-import RouteMap from "@/components/request/RouteMap";
-import OfferCard from "@/components/request/OfferCard";
-import SendOfferButton from "@/components/request/SendOfferButton";
+import RequestHeader from "./../components/RequestHeader";
+import StatusBanner from "./../components/StatusBanner";
+import Countdown from "./../components/Countdown";
+import OrderInformation from "./../components/OrderInformation";
+import RouteCard from "./../components/RouteCard";
+import RouteMap from "./../components/RouteMap";
+import OfferCard from "./../components/OfferCard";
+import SendOfferButton from "./../components/SendOfferButton";
 
-import RequestExpired from "@/components/request/RequestExpired";
-import RequestAccepted from "@/components/request/RequestAccepted";
-import LoadingSkeleton from "@/components/request/LoadingSkeleton";
+import RequestExpired from "./../components/RequestExpired";
+import RequestAccepted from "./../components/RequestAccepted";
+import LoadingSkeleton from "./../components/LoadingSkeleton";
 
 export default function RequestPage() {
     const router = useRouter();

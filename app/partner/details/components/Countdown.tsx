@@ -1,6 +1,6 @@
 "use client";
 
-import useCountdown from "@/hooks/useCountdown";
+import useCountdown from "@/hook/useCountdown";
 
 interface Props {
     expiresAt: string;

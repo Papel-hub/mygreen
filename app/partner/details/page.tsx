@@ -1,7 +1,15 @@
 import React from 'react';
-import { ArrowLeft, Bell, MapPin, Navigation, Clock, Scale } from 'lucide-react';
+import { ArrowLeft, Bell, MapPin, Navigation, Clock } from 'lucide-react';
 
-export default function RequestDetails({ onBack, onSendOffer }) {
+interface RequestDetailsProps {
+  onBack: () => void;
+  onSendOffer: () => void;
+}
+
+export default function RequestDetails({
+  onBack,
+  onSendOffer,
+}: RequestDetailsProps) {
   return (
     <div className="max-w-md mx-auto bg-gray-50 min-h-screen shadow-lg flex flex-col font-sans">
       
@@ -44,7 +52,7 @@ export default function RequestDetails({ onBack, onSendOffer }) {
                 Bouquet of Roses with Greeting Card
               </h3>
               <p className="text-xs text-gray-400">Personalised message:</p>
-              <p className="text-xs font-semibold text-gray-700 italic">"Happy Birthday!"</p>
+              <p className="text-xs font-semibold text-gray-700 italic">&quot;Happy Birthday!&quot;</p>
             </div>
           </div>
         </div>

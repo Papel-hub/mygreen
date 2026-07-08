@@ -6,7 +6,7 @@ getDoc
 
 } from "firebase/firestore";
 
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/firebase/config";
 
 import { RequestModel } from "@/types/request";
 
