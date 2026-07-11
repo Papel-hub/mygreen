@@ -26,6 +26,6 @@ Se aparecer isso — ótimo, está vinculado ao GitHub.
 git pull origin main
 npm install
 npm run build
-pm2 restart mimomeueseu
+pm2 restart mygreen
 .......
 npx create-next-app@latest

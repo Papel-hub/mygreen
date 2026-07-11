@@ -1,20 +1,41 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-// Imports atualizados
+import { usePathname, useRouter } from 'next/navigation';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from '@/lib/firebase/config'; // Ajuste o caminho conforme sua estrutura de pastas
+
 import { 
   PlusIcon, CalendarIcon, ClockIcon, CreditCardIcon, TruckIcon, 
   HomeIcon, ClipboardListIcon, GiftIcon, UserIcon, BellIcon, 
-  ChevronRight 
+  ChevronRight, Loader2
 } from 'lucide-react';
 
 export default function HomePage() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Monitora o estado da autenticação do Firebase
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        // Se não houver usuário logado, redireciona para a tela de login em produção
+        router.push('/home'); 
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [router]);
 
   const menuItems = [
-    { title: "CREATE YOUR GREETING CARD", subtitle: "", icon: PlusIcon, href: "/create-card" },
+    { title: "CREATE YOUR GREETING CARD", subtitle: "Craft a personalized message", icon: PlusIcon, href: "/create-card" },
     { title: "IMPORTANT DATES", subtitle: "Never miss a special day", icon: CalendarIcon, href: "/dates" },
     { title: "SCHEDULED CARDS", subtitle: "View your scheduled cards", icon: ClockIcon, href: "/scheduled" },
     { title: "GIFT CARDS", subtitle: "Manage your gift cards", icon: CreditCardIcon, href: "/giftcards" },
@@ -29,82 +50,105 @@ export default function HomePage() {
     { name: 'Profile', href: '/profile', icon: UserIcon },
   ];
 
+  // Estado de carregamento limpo para não dar flash de tela errada
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#042414] flex flex-col items-center justify-center text-white">
+        <Loader2 className="animate-spin text-[#D4AF37] mb-2" size={40} />
+        <p className="text-sm font-light tracking-wide text-white/70">Loading your green paradise...</p>
+      </div>
+    );
+  }
+
+  // Retorna nulo temporariamente se o usuário não existir (enquanto o router redireciona)
+  if (!user) return null;
+
   return (
-    <div className="min-h-screen text-white relative flex flex-col">
+    <div className="min-h-screen text-white relative flex flex-col select-none">
       {/* Textura de fundo suave */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://tse1.mm.bing.net/th/id/OIP.vffDfFub2iP_s3K6MnvkRQHaEO?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" // Substitua pela sua imagem de paisagem
+          src="https://tse1.mm.bing.net/th/id/OIP.vffDfFub2iP_s3K6MnvkRQHaEO?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
           alt="Ireland Landscape"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
         {/* Overlay Escuro para dar contraste aos botões */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/55 backdrop-blur-[1px]" />
       </div>
 
       {/* Header */}
-<header className="fixed top-0 w-full z-50 backdrop-blur-md  transition-all duration-300">
-  <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between h-16">
-      <Link href="/home" className="flex-shrink-0">
-        <Image src="/logo1.svg" alt="Mimo Meu e Seu" width={100} height={60} priority />
-              <div className="hidden sm:block text-right">
-          <h1 className="text-xl font-serif leading-none">Ireland</h1>
-          <p className="text-[10px] text-[#D4AF37] uppercase tracking-widest">My Green Diamond</p>
+      <header className="fixed top-0 w-full z-50 backdrop-blur-md bg-[#042414]/40 border-b border-[#D4AF37]/10 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <Link href="/home" className="flex items-center gap-3 flex-shrink-0">
+              <Image src="/logo1.svg" alt="Mimo Meu e Seu" width={100} height={60} priority />
+              <div className="hidden sm:block text-left border-l border-[#D4AF37]/30 pl-3">
+                <h1 className="text-lg font-serif leading-none tracking-wide">Ireland</h1>
+                <p className="text-[9px] text-[#D4AF37] uppercase tracking-widest mt-0.5">My Green Diamond</p>
+              </div>
+            </Link>
+            
+            <div className="flex items-center gap-3">
+              <button 
+                className="p-2 text-[#D4AF37] hover:text-white transition-colors rounded-full hover:bg-[#D4AF37]/10 active:scale-95"
+                aria-label="Notificações"
+              >
+                <BellIcon size={22} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
         </div>
-      </Link>
-      
-      <div className="flex items-center gap-3">
-        <button 
-          className="p-2 text-[#D4AF37] hover:text-white transition-colors rounded-full hover:bg-[#D4AF37]/10"
-          aria-label="Notificações"
-        >
-          <BellIcon size={24} aria-hidden="true" />
-        </button>
-      </div>
-    </div>
-  </div>
-</header>
+      </header>
 
-      {/* Boas-vindas */}
-      <section className="relative z-10 px-6 top-8 py-8">
-        <h2 className="text-2xl font-serif text-[#D4AF37]">Welcome back, User! 💚</h2>
+      {/* Espaçador para o Header Fixo */}
+      <div className="h-16" />
+
+      {/* Boas-vindas Dinâmico */}
+      <section className="relative z-10 px-6 py-6 mt-4">
+        <h2 className="text-2xl font-serif text-[#D4AF37]">
+          Welcome back, {user.displayName || user.email?.split('@')[0] || 'User'}! 💚
+        </h2>
         <p className="text-sm text-white/70 font-light mt-1">What would you like to do today?</p>
       </section>
 
       {/* Menu de Botões */}
-      <main className="relative z-10 px-6 flex-1 space-y-4 pb-24">
-        {menuItems.map((item) => (
-          <Link 
-            key={item.href} 
-            href={item.href}
-            className="flex items-center justify-between p-5 rounded-xl border border-[#D4AF37] bg-gradient-to-r from-[#06331C] to-[#042414] shadow-lg active:scale-95 transition-transform"
-          >
-            <div className="flex items-center gap-4">
-              <div className="text-[#D4AF37]">
-                <item.icon size={32} strokeWidth={1.5} />
+      <main className="relative z-10 px-6 flex-1 space-y-4 pb-28 max-w-2xl w-full mx-auto">
+        {menuItems.map((item) => {
+          const IconComponent = item.icon;
+          return (
+            <Link 
+              key={item.href} 
+              href={item.href}
+              className="flex items-center justify-between p-4 rounded-xl border border-[#D4AF37]/40 bg-gradient-to-r from-[#06331C]/90 to-[#042414]/95 shadow-xl active:scale-[0.98] hover:border-[#D4AF37] transition-all duration-200 group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-[#D4AF37] bg-[#D4AF37]/10 p-2.5 rounded-lg group-hover:bg-[#D4AF37]/20 transition-colors">
+                  <IconComponent size={26} strokeWidth={1.5} />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-xs font-bold tracking-wider text-white uppercase">{item.title}</span>
+                  {item.subtitle && <span className="text-[11px] text-white/60 mt-0.5 font-light">{item.subtitle}</span>}
+                </div>
               </div>
-              <div className="flex flex-col text-left">
-                <span className="text-sm font-bold tracking-wide text-white uppercase">{item.title}</span>
-                {item.subtitle && <span className="text-[11px] text-white/60">{item.subtitle}</span>}
-              </div>
-            </div>
-            <ChevronRight size={20} className="text-[#D4AF37]" strokeWidth={2} aria-hidden="true" />
-          </Link>
-        ))}
+              <ChevronRight size={18} className="text-[#D4AF37] group-hover:translate-x-0.5 transition-transform" strokeWidth={2} aria-hidden="true" />
+            </Link>
+          );
+        })}
       </main>
 
       {/* Bottom Nav */}
-      <footer className="fixed bottom-0 w-full bg-[#042414]/90 backdrop-blur-md border-t border-[#D4AF37]/30 px-2 py-3 z-50">
-        <nav className="flex justify-around items-end">
+      <footer className="fixed bottom-0 w-full bg-[#042414]/95 backdrop-blur-md border-t border-[#D4AF37]/20 px-2 py-2 z-50 safe-bottom">
+        <nav className="flex justify-around items-center max-w-lg mx-auto h-12">
           {tabs.map((tab) => {
             const isActive = pathname === tab.href;
+            const TabIcon = tab.icon;
             return (
-              <Link key={tab.name} href={tab.href} className="flex flex-col items-center gap-1 group">
-                <tab.icon size={22} className={isActive ? "text-[#D4AF37]" : "text-white/60"} />
-                <span className={`text-[10px] ${isActive ? "text-[#D4AF37] font-bold" : "text-white/60"}`}>
+              <Link key={tab.name} href={tab.href} className="flex flex-col items-center justify-center flex-1 h-full gap-0.5 group">
+                <TabIcon size={20} className={isActive ? "text-[#D4AF37] scale-105" : "text-white/50 group-hover:text-white/80"} transition-all />
+                <span className={`text-[9px] tracking-wide transition-colors ${isActive ? "text-[#D4AF37] font-semibold" : "text-white/50 group-hover:text-white/80"}`}>
                   {tab.name}
                 </span>
               </Link>
@@ -113,13 +157,5 @@ export default function HomePage() {
         </nav>
       </footer>
     </div>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="m9 18 6-6-6-6"/>
-    </svg>
   );
 }

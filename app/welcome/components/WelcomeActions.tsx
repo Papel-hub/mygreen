@@ -9,7 +9,7 @@ import {
 
 export default function WelcomeActions() {
   return (
-    <section className="w-full max-w-sm space-y-4">
+    <section className="w-full ">
 
       {/* LOGIN */}
 
@@ -22,7 +22,7 @@ export default function WelcomeActions() {
           items-center
           justify-center
           gap-3
-          rounded-2xl
+          rounded-lg
           bg-[#0B4627]
           font-semibold
           text-white
@@ -30,7 +30,7 @@ export default function WelcomeActions() {
           transition-all
           duration-300
           hover:scale-[1.02]
-          hover:bg-[#106437]
+          hover:bg-[#169B62]
           active:scale-95
         "
       >
@@ -50,7 +50,7 @@ export default function WelcomeActions() {
           items-center
           justify-center
           gap-3
-          rounded-2xl
+          rounded-lg
           border
           border-white/15
           bg-white
@@ -79,7 +79,7 @@ export default function WelcomeActions() {
           items-center
           justify-center
           gap-3
-          rounded-2xl
+          rounded-lg
           border
           border-[#D4AF37]
           bg-black/35
@@ -120,7 +120,7 @@ export default function WelcomeActions() {
           items-center
           justify-center
           gap-3
-          rounded-2xl
+          rounded-lg
           border
           border-[#D4AF37]/50
           bg-black/40
@@ -149,7 +149,7 @@ export default function WelcomeActions() {
           items-center
           justify-center
           gap-4
-          rounded-2xl
+          rounded-lg
           border
           border-[#D4AF37]/50
           bg-black/40
