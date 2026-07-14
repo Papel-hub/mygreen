@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase/config'; // Ajuste o caminho conforme sua estrutura de pastas
+import { auth } from '@/lib/firebase/config';
 
 import { 
   PlusIcon, CalendarIcon, ClockIcon, CreditCardIcon, TruckIcon, 
@@ -26,7 +26,7 @@ export default function HomePage() {
         setUser(currentUser);
       } else {
         // Se não houver usuário logado, redireciona para a tela de login em produção
-        router.push('/home'); 
+        router.push('/login'); 
       }
       setLoading(false);
     });
