@@ -2,31 +2,32 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { 
-  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  updateProfile,
   signInWithPopup, 
-  GoogleAuthProvider, 
-  sendPasswordResetEmail,
+  GoogleAuthProvider,
   onAuthStateChanged
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 
-// Interface para tipar os erros retornados pelo Firebase Auth
+// Strict interface for Firebase Auth errors without using 'any'
 interface FirebaseError extends Error {
   code?: string;
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [resetMessage, setResetMessage] = useState('');
 
-  // Redirect to /home if already logged in
+  // Redirect to /home if user is already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -36,45 +37,62 @@ export default function LoginPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // Email/Password Sign In
-  const handleEmailLogin = async (e: React.FormEvent) => {
+  // Email/Password Registration
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setResetMessage('');
+
+    // Basic Client-Side Validations
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      // 1. Create the user credentials
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // 2. Update the user's display name in their Firebase profile
+      if (userCredential.user) {
+        await updateProfile(userCredential.user, {
+          displayName: name.trim()
+        });
+      }
+
+      // 3. Redirect to home dashboard
       router.push('/home');
     } catch (err) {
       console.error(err);
       const firebaseError = err as FirebaseError;
-      
+
       switch (firebaseError.code) {
-        case 'auth/invalid-credential':
-          setError('Invalid email or password.');
-          break;
-        case 'auth/user-not-found':
-          setError('No user found with this email.');
-          break;
-        case 'auth/wrong-password':
-          setError('Incorrect password.');
+        case 'auth/email-already-in-use':
+          setError('This email address is already registered.');
           break;
         case 'auth/invalid-email':
           setError('Invalid email format.');
           break;
+        case 'auth/weak-password':
+          setError('Password is too weak. Please use a stronger password.');
+          break;
         default:
-          setError('An error occurred during sign in. Please try again.');
+          setError('An error occurred during registration. Please try again.');
       }
     } finally {
       setLoading(false);
     }
   };
 
-  // Google Sign In
-  const handleGoogleLogin = async () => {
+  // Google Fast Registration
+  const handleGoogleRegister = async () => {
     setError('');
-    setResetMessage('');
     setLoading(true);
     const provider = new GoogleAuthProvider();
 
@@ -84,36 +102,12 @@ export default function LoginPage() {
     } catch (err) {
       console.error(err);
       const firebaseError = err as FirebaseError;
-      
+
       if (firebaseError.code !== 'auth/popup-closed-by-user') {
         setError('Failed to authenticate with Google.');
       }
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Forgot Password
-  const handleForgotPassword = async () => {
-    if (!email) {
-      setError('Please enter your email address first.');
-      return;
-    }
-    setError('');
-    setResetMessage('');
-    
-    try {
-      await sendPasswordResetEmail(auth, email);
-      setResetMessage('Password reset email sent successfully!');
-    } catch (err) {
-      console.error(err);
-      const firebaseError = err as FirebaseError;
-      
-      if (firebaseError.code === 'auth/invalid-email') {
-        setError('Invalid email format.');
-      } else {
-        setError('Error sending password reset email.');
-      }
     }
   };
 
@@ -130,7 +124,7 @@ export default function LoginPage() {
         <div className="absolute -z-10 h-72 w-72 rounded-full bg-[#169B62]/15 blur-[100px] pointer-events-none" />
 
         {/* Brand Logo */}
-        <div className="relative mb-6 h-24 w-24 transition-transform duration-700 hover:scale-105">
+        <div className="relative mb-6 h-20 w-20 transition-transform duration-700 hover:scale-105">
           <Image
             src="/images/logo00.svg"
             alt="Ireland My Green Diamond"
@@ -145,24 +139,36 @@ export default function LoginPage() {
           My Green <span className="text-[#D4AF37]">Diamond</span>
         </h2>
         <p className="mt-1 text-sm tracking-wider text-[#169B62] uppercase font-medium">
-          Sign in to your account
+          Create your account
         </p>
 
-        {/* Notifications */}
+        {/* Error Notification */}
         {error && (
           <div className="mt-4 w-full p-3 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-xs text-left">
             {error}
           </div>
         )}
-        {resetMessage && (
-          <div className="mt-4 w-full p-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs text-left">
-            {resetMessage}
-          </div>
-        )}
 
-        {/* Login Form */}
-        <form className="mt-6 w-full space-y-4 text-left" onSubmit={handleEmailLogin}>
+        {/* Registration Form */}
+        <form className="mt-6 w-full space-y-4 text-left" onSubmit={handleRegister}>
           
+          {/* Full Name */}
+          <div>
+            <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1">
+              Full Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              required
+              disabled={loading}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Doe"
+              className="w-full px-4 py-3 border border-white/10 bg-[#031A0E]/80 placeholder-white/20 text-white rounded-lg focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+            />
+          </div>
+
           {/* Email */}
           <div>
             <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1">
@@ -182,19 +188,9 @@ export default function LoginPage() {
 
           {/* Password */}
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-white/70">
-                Password
-              </label>
-              <button
-                type="button"
-                onClick={handleForgotPassword}
-                disabled={loading}
-                className="text-xs text-[#D4AF37] hover:text-[#f3cd57] transition-colors bg-transparent border-none cursor-pointer"
-              >
-                Forgot password?
-              </button>
-            </div>
+            <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1">
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -202,7 +198,24 @@ export default function LoginPage() {
               disabled={loading}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Minimum 6 characters"
+              className="w-full px-4 py-3 border border-white/10 bg-[#031A0E]/80 placeholder-white/20 text-white rounded-lg focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div>
+            <label htmlFor="confirmPassword" className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1">
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              required
+              disabled={loading}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Repeat your password"
               className="w-full px-4 py-3 border border-white/10 bg-[#031A0E]/80 placeholder-white/20 text-white rounded-lg focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
             />
           </div>
@@ -213,7 +226,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-3 px-4 mt-2 font-serif text-sm font-semibold rounded-lg text-[#031A0E] bg-gradient-to-r from-[#D4AF37] to-[#bfa032] hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(212,175,55,0.2)] disabled:opacity-50 disabled:pointer-events-none"
           >
-            {loading ? 'Please wait...' : 'Sign In'}
+            {loading ? 'Registering...' : 'Create Account'}
           </button>
         </form>
 
@@ -223,14 +236,14 @@ export default function LoginPage() {
             <div className="w-full border-t border-white/10" />
           </div>
           <div className="relative flex justify-center text-2xs uppercase tracking-[0.2em]">
-            <span className="bg-[#031A0E] px-3 text-white/50">Or continue with</span>
+            <span className="bg-[#031A0E] px-3 text-white/50">Or register with</span>
           </div>
         </div>
 
         {/* Google Authentication Button */}
         <button
           type="button"
-          onClick={handleGoogleLogin}
+          onClick={handleGoogleRegister}
           disabled={loading}
           className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-white/10 rounded-lg bg-[#031A0E]/30 hover:bg-white/5 text-white/90 hover:text-white transition-all text-sm disabled:opacity-50 disabled:pointer-events-none"
         >
@@ -252,14 +265,14 @@ export default function LoginPage() {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
             />
           </svg>
-          Sign in with Google
+          Sign up with Google
         </button>
 
         {/* Footer */}
         <p className="mt-8 text-xs text-white/60">
-          Don&apos;t have an account?{' '}
-          <Link href="resister" className="text-[#D4AF37] hover:underline">
-            Create one here
+          Already have an account?{' '}
+          <Link href="/login" className="text-[#D4AF37] hover:underline">
+            Sign in here
           </Link>
         </p>
 
