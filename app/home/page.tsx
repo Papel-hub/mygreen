@@ -121,7 +121,7 @@ export default function HomePage() {
       {/* Greeting Hero Section */}
       <section className="relative z-10 px-6 py-6 mt-4 max-w-2xl w-full mx-auto">
         <h2 className="text-3xl font-serif text-[#D4AF37] leading-tight">
-          Welcome back, <br/> {getGreetingName()}! 💚
+          Welcome back, <br/> {getGreetingName()}!
         </h2>
         <p className="text-sm text-white/70 font-light mt-1.5">What would you like to do today?</p>
       </section>
