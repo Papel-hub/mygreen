@@ -1,102 +1,69 @@
 'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase/config'; // Ajuste o caminho da sua config do Firebase
 
-const SPLASH_DURATION = 3500;
+// 3000ms = 3 segundos
+const REDIRECT_DELAY = 5000; 
 
-export default function SplashScreen() {
+export default function WelcomeScreen() {
   const router = useRouter();
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Tenta reproduzir o vídeo de fundo (se houver) com tratamento de fallback
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.warn("Autoplay do vídeo falhou ou bloqueado pelo navegador:", error);
-      });
-    }
-  }, []);
+    const timer = setTimeout(() => {
+      router.replace('/welcome'); 
+    }, REDIRECT_DELAY);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      // Checa a autenticação com Firebase antes de redirecionar
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          router.replace('/home');
-        } else {
-          router.replace('/welcome');
-        }
-      });
-
-      return () => unsubscribe();
-    }, SPLASH_DURATION);
-
-    return () => window.clearTimeout(timer);
+    return () => clearTimeout(timer);
   }, [router]);
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#031A0E] text-white select-none">
+    <main className="relative flex min-h-screen flex-col items-center justify-between bg-white px-6 py-12 text-slate-900 select-none">
       
+      {/* Espaçador superior (Status bar mobile) */}
+      <div className="w-full h-2" />
 
-
-      {/* Sombreamento/Overlay do fundo */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#031A0E]/60 via-[#031A0E]/80 to-[#031A0E] z-0" />
-
-      {/* Conteúdo */}
-      <section className="relative z-10 flex w-full max-w-md flex-col items-center px-8 text-center animate-fade-in">
+      {/* Conteúdo Central */}
+      <section className="flex w-full max-w-md flex-col items-center text-center">
         
-        {/* Glow de Fundo Emissão Esmeralda */}
-        <div className="absolute -z-10 h-72 w-72 rounded-full bg-[#169B62]/25 blur-[120px] pointer-events-none" />
+        {/* Título Principal */}
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-wide text-[var(--color-brand-title,#2F2D29)]">
+          Ireland, my green diamond
+        </h1>
 
-        {/* Logo Com Efeito Breathing */}
-        <div className="relative mb-8 h-48 w-48 sm:h-56 sm:w-56 transition-transform duration-700 hover:scale-105">
+        {/* Divisor com Subtítulo */}
+        <div className="mt-4 flex items-center justify-center gap-3 w-full max-w-xs">
+          <div className="h-[1px] flex-1 bg-[var(--color-brand-green,#0F3D2E)]/40" />
+          <span className="text-xs sm:text-sm text-[var(--color-brand-green,#0F3D2E)] font-medium tracking-wide">
+            For All Occasions
+          </span>
+          <div className="h-[1px] flex-1 bg-[var(--color-brand-green,#0F3D2E)]/40" />
+        </div>
+
+        {/* Logo / Ilustração */}
+        <div className="relative mt-12 mb-8 h-64 w-64 sm:h-72 sm:w-72 flex items-center justify-center">
           <Image
-            src="/images/logo00.svg"
-            alt="Ireland My Green Diamond"
+            src="/images/Logo-Color1.svg" 
+            alt="Ireland My Green Diamond Logo"
             fill
             priority
-            sizes="(max-w-768px) 224px, 256px"
-            className="object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.4)]"
+            sizes="(max-width: 768px) 256px, 288px"
+            className="object-contain"
           />
         </div>
 
-        {/* Título Principal */}
-        <h1 className="font-serif text-4xl sm:text-5xl leading-tight text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.6)]">
-          My Green
-          <br />
-          <span className="text-[#D4AF37]">Diamond</span>
-        </h1>
-
-        {/* Subtítulo */}
-        <p className="mt-3 text-lg sm:text-xl italic tracking-[0.2em] text-[#169B62] font-medium">
-          For All Occasions
-        </p>
-
-        {/* Divisor Gradiente Elegante */}
-        <div className="mt-8 flex w-3/4 items-center justify-center">
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
-        </div>
-
-        {/* Loader Personalizado */}
-        <div className="mt-12 flex flex-col items-center">
-          <div className="relative h-12 w-12">
-            {/* Anel Externo Translúcido */}
-            <div className="absolute inset-0 rounded-full border border-white/10" />
-
-            {/* Anel Giratório Esmeralda/Dourado */}
-            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#D4AF37] border-r-[#169B62] animate-spin" />
-          </div>
-
-          <p className="mt-6 text-xs tracking-[0.3em] uppercase text-white/70 animate-pulse font-light">
-            Preparing your experience...
-          </p>
-        </div>
-
       </section>
+
+      {/* Loading Indicator Sequencial (3 Pontinhos com animação) */}
+      <footer className="w-full max-w-md flex justify-center pb-8">
+        <div className="flex items-center gap-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-brand-accent,#169B62)] animate-bounce [animation-delay:-0.3s]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-brand-accent,#169B62)] animate-bounce [animation-delay:-0.15s]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-brand-accent,#169B62)] animate-bounce" />
+        </div>
+      </footer>
+
     </main>
   );
 }

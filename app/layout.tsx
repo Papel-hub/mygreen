@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import "leaflet/dist/leaflet.css";
-import { AuthProvider } from "@/providers/AuthProvider";
 
 
 const circularStd = localFont({
@@ -21,7 +19,6 @@ export const metadata: Metadata = {
   description: "For All Occasions",
 };
 
-
 export default function RootLayout({
   children,
 }: {
@@ -34,7 +31,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Mimo Meu e Seu" />
@@ -45,9 +41,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
         <div className="relative z-10">
-              <AuthProvider>
-      {children}
-    </AuthProvider>
+          {children}
         </div>
       </body>
     </html>

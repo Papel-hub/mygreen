@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   CalendarIcon, 
-  HomeIcon, ClipboardListIcon, GiftIcon, UserIcon, 
+  HomeIcon, ClipboardListIcon, UserIcon, 
 } from 'lucide-react';
 
 export default function Footer() {
@@ -13,7 +13,6 @@ export default function Footer() {
   const tabs = [
     { name: 'Home', href: '/home', icon: HomeIcon },
     { name: 'Orders', href: '/orders', icon: ClipboardListIcon },
-    { name: 'Gift Cards', href: '/giftcards', icon: GiftIcon },
     { name: 'Dates', href: '/dates', icon: CalendarIcon },
     { name: 'Profile', href: '/profile', icon: UserIcon },
   ];
