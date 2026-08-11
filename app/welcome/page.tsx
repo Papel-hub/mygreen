@@ -6,27 +6,31 @@ import { ArrowLeft, Gift, Car, Flower, Check } from 'lucide-react';
 import Image from 'next/image';
 
 export default function WelcomeOnboarding() {
-  const router = useRouter();
+const router = useRouter();
   
-  // Controle de estado das telas (1 = Boas-vindas, 2 = Seleção de Perfil)
-  const [step, setStep] = useState<1 | 2>(1);
+  // Controle de estado do fluxo de telas (1, 2 ou 3)
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   
-  // Opção selecionada na etapa 2
+  // Opção selecionada na Etapa 2
   const [selectedRole, setSelectedRole] = useState<'customer' | 'driver' | 'partner'>('customer');
 
-  const handleNextStep = () => setStep(2);
-  
-  const handleBackStep = () => {
-    if (step === 2) {
-      setStep(1);
-    } else {
-      router.back();
-    }
+  // Navegação para a frente
+  const handleNextStep = () => {
+    if (step === 1) setStep(2);
+    else if (step === 2) setStep(3);
   };
 
+  // Navegação para trás
+  const handleBackStep = () => {
+    if (step === 3) setStep(2);
+    else if (step === 2) setStep(1);
+    else router.back();
+  };
+
+  // Ao selecionar uma opção na Etapa 2, define o papel e avança para a Etapa 3
   const handleSelectRole = (role: 'customer' | 'driver' | 'partner') => {
     setSelectedRole(role);
-    router.push(`/${role}/login`);
+    setStep(3);
   };
 
   return (
@@ -242,7 +246,61 @@ export default function WelcomeOnboarding() {
         </section>
       )}
 
+{step === 3 && (
+        <section className="relative z-10 my-auto flex w-full max-w-md flex-col items-center text-center pt-4 pb-6 mx-auto animate-fade-in">
+          
+          {/* Ilustração do Diamante */}
+          <div className="relative mb-8 h-32 w-32 sm:h-36 sm:w-36 flex items-center justify-center">
+            <Image
+              src="/images/logo2.svg" 
+              alt="Gold Shamrock Diamond"
+              fill
+              priority
+              className="object-contain"
+            />
+          </div>
 
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal tracking-wide text-stone-100">
+            Let&apos;s Get Started
+          </h1>
+          
+          <p className="mt-3 text-sm sm:text-base font-normal text-stone-300 leading-relaxed max-w-xs">
+            Access Your Account Or Create A New One.
+          </p>
+
+          <div className="mt-10 w-full space-y-4">
+            <button
+              onClick={() => router.push(`/login?role=${selectedRole}`)}
+              className="w-full rounded-2xl bg-[#B08D2A] py-4 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
+            >
+              Login
+            </button>
+
+            <button
+              onClick={() => router.push(`/register?role=${selectedRole}`)}
+              className="w-full rounded-2xl bg-[#143B27] border 
+              border-emerald-800/80 py-4 text-center text-sm sm:text-base
+               font-semibold text-white shadow-lg transition-all hover:bg-[#1B4D33] active:scale-[0.99]"
+            >
+              Create Account
+            </button>
+          </div>
+
+          <div className="mt-10 w-full">
+            <div className="flex items-center justify-center gap-3 w-full">
+              <div className="h-[1px] flex-1 bg-stone-500/30" />
+              <button 
+                onClick={() => router.push('/home')}
+                className="text-xs sm:text-sm text-stone-200 hover:text-white font-medium transition-colors"
+              >
+                Continue as Guest
+              </button>
+              <div className="h-[1px] flex-1 bg-stone-500/30" />
+            </div>
+          </div>
+
+        </section>
+      )}
 
     </main>
   );

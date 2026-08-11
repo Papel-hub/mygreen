@@ -2,110 +2,76 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeft, User, Mail, Phone, Lock } from 'lucide-react';
+import { ArrowLeft, Mail, Lock } from 'lucide-react';
 import Image from 'next/image';
 
-
-function RegisterContent() {
+// 1. Componente interno contendo o formulário e a lógica com useSearchParams()
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  // Captura o tipo de perfil enviado pelo fluxo anterior
+
+  // Captura o tipo de perfil enviado pela página anterior (ex: customer, driver, partner)
   const role = searchParams.get('role') || 'customer';
 
-  // Estados dos formulários
-  const [fullName, setFullName] = useState('');
+  // Estados dos inputs
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Lógica de cadastro aqui
-    console.log('Registering as:', role, { fullName, email, phone, password });
+    // Lógica de autenticação aqui
+    console.log('Logging in as:', role, { email, password });
     router.push('/home');
   };
 
   return (
     <main className="relative flex min-h-screen w-full flex-col justify-between bg-[#082214] px-6 py-8 text-white select-none overflow-hidden font-sans">
-      
-       {/* Imagem de Fundo Otimizada do Next.js */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-            <Image
-            src="/images/img1.svg" // public/images/
-            alt="Background"
-            fill
-            priority
-            quality={85}
-            className="object-cover object-center opacity-30" // Ajuste a opacidade como preferir
-            />
-        </div>
+      {/* Imagem de Fundo Otimizada do Next.js */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <Image
+          src="/images/img1.svg"
+          alt="Background"
+          fill
+          priority
+          quality={85}
+          className="object-cover object-center opacity-30"
+        />
+      </div>
 
       {/* Header com botão de voltar */}
       <header className="relative z-10 flex w-full items-center justify-between min-h-[40px]">
-            <button 
-                onClick={() => router.back()}
-              className="flex h-10 w-10 items-center justify-center
-                border-[#B08D2A] bg-[#0B2C1A] hover:bg-[#0E351F]
-                 rounded-lg bg-[#143B27] text-emerald-100
-                transition-all hover:bg-[#1B4D33] active:scale-95 border"
-                aria-label="Voltar"
-            >
-            <ArrowLeft className="h-5 w-5" />
-            </button>
+        <button
+          onClick={() => router.back()}
+          className="flex h-10 w-10 items-center justify-center border border-[#B08D2A] bg-[#0B2C1A] text-emerald-100 transition-all hover:bg-[#1B4D33] active:scale-95 rounded-lg"
+          aria-label="Voltar"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
         <div className="w-10 h-10" />
       </header>
 
       {/* Conteúdo do Formulário */}
       <section className="relative z-10 my-auto flex w-full max-w-md flex-col justify-center pt-2 pb-6 mx-auto">
-        
         {/* Título & Subtítulo */}
-        <div className="mb-6">
+        <div className="mb-8">
           <h1 className="font-serif text-3xl sm:text-4xl font-normal text-stone-100">
-            Create Account
+            Welcome back
           </h1>
-          <p className="mt-1.5 text-xs sm:text-sm text-stone-300 font-normal">
-            Create Your My Green Diamond Account
+          <p className="mt-2 text-sm sm:text-base text-stone-300 font-normal">
+            Sign In To Continue Your Story.
           </p>
         </div>
 
-        {/* Formulário de Cadastro */}
-        <form onSubmit={handleSubmit} className="w-full space-y-3.5">
-          
-          {/* Input Full Name (Com a borda dourada focada/ativa) */}
+        {/* Formulário de Login */}
+        <form onSubmit={handleSubmit} className="w-full space-y-4">
+          {/* Input Email */}
           <div className="relative flex items-center rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] px-4 py-3.5 focus-within:border-[#B08D2A] focus-within:ring-1 focus-within:ring-[#B08D2A]">
-            <User className="h-5 w-5 text-[#B08D2A] mr-3 shrink-0" />
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-              className="w-full bg-transparent text-sm text-white placeholder-stone-400 focus:outline-none"
-            />
-          </div>
-
-          {/* Input Email Address */}
-          <div className="relative flex items-center rounded-2xl border border-[#B08D2A] bg-[#0B2C1A] px-4 py-3.5 focus-within:border-[#B08D2A] focus-within:ring-1 focus-within:ring-[#B08D2A]">
             <Mail className="h-5 w-5 text-[#B08D2A] mr-3 shrink-0" />
             <input
               type="email"
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full bg-transparent text-sm text-white placeholder-stone-400 focus:outline-none"
-            />
-          </div>
-
-          {/* Input Phone Number */}
-          <div className="relative flex items-center rounded-2xl border border-[#B08D2A] bg-[#0B2C1A] px-4 py-3.5 focus-within:border-[#B08D2A] focus-within:ring-1 focus-within:ring-[#B08D2A]">
-            <Phone className="h-5 w-5 text-[#B08D2A] mr-3 shrink-0" />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
               required
               className="w-full bg-transparent text-sm text-white placeholder-stone-400 focus:outline-none"
             />
@@ -124,20 +90,30 @@ function RegisterContent() {
             />
           </div>
 
-          {/* Botão Submit / Create Account */}
-          <div className="pt-3">
+          {/* Forgot Password Link */}
+          <div className="flex justify-end pt-1">
+            <button
+              type="button"
+              onClick={() => router.push('/forgot-password')}
+              className="text-xs sm:text-sm font-medium text-[#B08D2A] hover:underline"
+            >
+              Forgot Password ?
+            </button>
+          </div>
+
+          {/* Botão Submit / Sign In */}
+          <div className="pt-2">
             <button
               type="submit"
               className="w-full rounded-2xl bg-[#B08D2A] py-4 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
             >
-              Create Account
+              Sign In
             </button>
           </div>
-
         </form>
 
         {/* Divisor "Continue with" */}
-        <div className="my-5 w-full">
+        <div className="my-6 w-full">
           <div className="flex items-center justify-center gap-3 w-full">
             <div className="h-[1px] flex-1 bg-stone-500/30" />
             <span className="text-xs text-stone-300 font-normal">
@@ -149,7 +125,6 @@ function RegisterContent() {
 
         {/* Botões de Social Login */}
         <div className="w-full space-y-3">
-          
           {/* Fileira Apple & Facebook */}
           <div className="grid grid-cols-2 gap-3">
             {/* Apple */}
@@ -188,32 +163,30 @@ function RegisterContent() {
             </svg>
             <span>Google</span>
           </button>
-
         </div>
 
-        {/* Rodapé - Link para Login */}
-        <div className="mt-6 text-center">
+        {/* Rodapé - Link para criar conta */}
+        <div className="mt-8 text-center">
           <p className="text-xs sm:text-sm text-stone-300">
-            Already Have An Account?{' '}
-            <button 
-              onClick={() => router.push(`/login?role=${role}`)}
+            New Here ?{' '}
+            <button
+              onClick={() => router.push(`/register?role=${role}`)}
               className="font-semibold text-[#B08D2A] hover:underline"
             >
-              Login
+              Create an Account
             </button>
           </p>
         </div>
-
       </section>
-
-
     </main>
   );
 }
-export default function RegisterPage() {
+
+// 2. Exportação padrão envelopando o LoginContent com Suspense
+export default function LoginPage() {
   return (
     <Suspense>
-      <RegisterContent />
+      <LoginContent />
     </Suspense>
   );
 }
