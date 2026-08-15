@@ -1,15 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { 
-  Menu, 
-  Bell, 
-  Star, 
   MapPin, 
   Clock, 
-  LayoutDashboard, 
-  ClipboardList, 
-  Truck, 
-  User 
+
 } from "lucide-react";
 
 

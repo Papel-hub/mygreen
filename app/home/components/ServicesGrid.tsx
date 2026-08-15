@@ -13,7 +13,7 @@ function ServiceCard({ icon, title, subtitle, onClick }: ServiceCardProps) {
   return (
     <div 
       onClick={onClick}
-      className="group flex cursor-pointer flex-col justify-between rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] p-4 transition-all hover:border-[#B08D2A] hover:bg-[#103822] active:scale-[0.98]"
+      className="group flex cursor-pointer shadow-lg shadow-[#D4A038]/10 flex-col justify-between rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] p-4 transition-all hover:border-[#B08D2A] hover:bg-[#103822] active:scale-[0.98]"
     >
       <div className="flex items-center justify-between mb-3">
         <div className="text-[#B08D2A]">{icon}</div>
@@ -60,7 +60,7 @@ export default function ServicesGrid() {
       </div>
 
       {/* Card Retangular Estendido na Parte Inferior */}
-      <div className="group flex cursor-pointer items-center justify-between rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] px-4 py-3.5 transition-all hover:border-[#B08D2A] hover:bg-[#103822] active:scale-[0.98]">
+      <div className="group flex cursor-pointer shadow-lg shadow-[#D4A038]/10 items-center justify-between rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] px-4 py-3.5 transition-all hover:border-[#B08D2A] hover:bg-[#103822] active:scale-[0.98]">
         <div className="flex items-center gap-3">
           <div className="text-[#B08D2A]">
             <Mail className="h-5 w-5" />

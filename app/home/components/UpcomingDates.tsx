@@ -17,10 +17,10 @@ export default function UpcomingDates() {
       </div>
 
       {/* Card de Evento Próximo */}
-      <div className="flex items-center justify-between rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] p-4">
+      <div className="flex items-center justify-between rounded-2xl shadow-lg shadow-[#D4A038]/10 border border-[#B08D2A]/70 bg-[#0B2C1A] p-4">
         <div className="flex items-center gap-3">
           {/* Ícone de Bolo / Aniversário */}
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#B08D2A]] text-[#B08D2A]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#B08D2A] text-[#B08D2A]">
             <Cake className="h-5 w-5" />
           </div>
 

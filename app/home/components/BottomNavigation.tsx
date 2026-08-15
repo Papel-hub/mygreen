@@ -15,8 +15,10 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-4 pt-2 pointer-events-none">
-      <div className="pointer-events-auto flex w-full max-w-md items-center justify-around rounded-2xl border-t border-transition-all border-[#B08D2A] hover:border-[#B08D2A]/70 hover:bg-[#103822] active:scale-[0.98]80 bg-[#0B2C1A]/95 px-3 py-2 shadow-2xl backdrop-blur-md">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4  pt-2 pointer-events-none">
+      <div className="pointer-events-auto flex w-full max-w-md items-center justify-around
+       rounded-t-2xl border-t border-transition-all shadow-lg shadow-[#D4A038]/10 border-[#B08D2A] hover:border-[#B08D2A]/70
+        hover:bg-[#103822] active:scale-[0.98]80 bg-[#0B2C1A]/95 px-3 py-2 shadow-2xl backdrop-blur-md">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;

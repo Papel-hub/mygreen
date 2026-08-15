@@ -25,7 +25,7 @@ export default function HomePage() {
         </div>
       {/* Conteúdo Sequencial da Home */}
       <div className="relative z-10 w-full max-w-md mx-auto">
-        <Header userName="Daniel" />
+        <Header userName="User" />
         <HeroBanner />
         <ServicesGrid />
         <UpcomingDates />

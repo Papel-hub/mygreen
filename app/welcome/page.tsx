@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Gift, Car, Flower, Check } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function WelcomeOnboarding() {
 const router = useRouter();
@@ -11,8 +12,7 @@ const router = useRouter();
   // Controle de estado do fluxo de telas (1, 2 ou 3)
   const [step, setStep] = useState<1 | 2 | 3>(1);
   
-  // Opção selecionada na Etapa 2
-  const [selectedRole, setSelectedRole] = useState<'customer' | 'driver' | 'partner'>('customer');
+  const [selectedRole, setSelectedRole] = useState<'customer' | 'driver' | 'partner' | null>(null);
 
   // Navegação para a frente
   const handleNextStep = () => {
@@ -55,8 +55,8 @@ const router = useRouter();
             onClick={handleBackStep}
             className="flex h-10 w-10 items-center justify-center
             border-[#B08D2A] bg-[#0B2C1A] hover:bg-[#0E351F]
-             rounded-lg bg-[#143B27] text-emerald-100
-              transition-all hover:bg-[#1B4D33] active:scale-95 border"
+             rounded-lg  text-emerald-100
+              transition-all  active:scale-95 border"
             aria-label="Voltar"
             >
             <ArrowLeft className="h-5 w-5" />
@@ -288,14 +288,11 @@ const router = useRouter();
 
           <div className="mt-10 w-full">
             <div className="flex items-center justify-center gap-3 w-full">
-              <div className="h-[1px] flex-1 bg-stone-500/30" />
-              <button 
-                onClick={() => router.push('/home')}
+              <Link href="/home"
                 className="text-xs sm:text-sm text-stone-200 hover:text-white font-medium transition-colors"
               >
                 Continue as Guest
-              </button>
-              <div className="h-[1px] flex-1 bg-stone-500/30" />
+              </Link>
             </div>
           </div>
 

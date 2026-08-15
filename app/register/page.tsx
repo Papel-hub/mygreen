@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, User, Mail, Phone, Lock } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 function RegisterContent() {
@@ -195,12 +196,11 @@ function RegisterContent() {
         <div className="mt-6 text-center">
           <p className="text-xs sm:text-sm text-stone-300">
             Already Have An Account?{' '}
-            <button 
-              onClick={() => router.push(`/login?role=${role}`)}
+            <Link href="/login?role=${role}"
               className="font-semibold text-[#B08D2A] hover:underline"
             >
               Login
-            </button>
+            </Link>
           </p>
         </div>
 

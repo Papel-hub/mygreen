@@ -4,6 +4,8 @@ import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Mail, Lock } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+
 
 // 1. Componente interno contendo o formulário e a lógica com useSearchParams()
 function LoginContent() {
@@ -92,13 +94,11 @@ function LoginContent() {
 
           {/* Forgot Password Link */}
           <div className="flex justify-end pt-1">
-            <button
-              type="button"
-              onClick={() => router.push('/forgot-password')}
+              <Link href="/forgot-password"
               className="text-xs sm:text-sm font-medium text-[#B08D2A] hover:underline"
             >
               Forgot Password ?
-            </button>
+            </Link>
           </div>
 
           {/* Botão Submit / Sign In */}
@@ -169,12 +169,11 @@ function LoginContent() {
         <div className="mt-8 text-center">
           <p className="text-xs sm:text-sm text-stone-300">
             New Here ?{' '}
-            <button
-              onClick={() => router.push(`/register?role=${role}`)}
+              <Link href="/register?role=${role}"
               className="font-semibold text-[#B08D2A] hover:underline"
             >
               Create an Account
-            </button>
+            </Link>
           </p>
         </div>
       </section>

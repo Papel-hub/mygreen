@@ -43,7 +43,7 @@ export default function RecentOrders() {
         {orders.map((order) => (
           <div
             key={order.id}
-            className="flex items-center justify-between rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] p-4 transition-all hover:border-[#B08D2A] hover:bg-[#103822] active:scale-[0.98]"
+            className="flex items-center justify-between rounded-2xl shadow-lg shadow-[#D4A038]/10 border border-[#B08D2A]/70 bg-[#0B2C1A] p-4 transition-all hover:border-[#B08D2A] hover:bg-[#103822] active:scale-[0.98]"
           >
             <div className="flex items-center gap-3">
               {/* Ícone */}

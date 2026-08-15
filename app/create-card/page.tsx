@@ -1,204 +1,193 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
- Gift, PlusSquare, Loader2, Check } from "lucide-react";
+  ArrowLeft, 
+  Smartphone, 
+  Truck, 
+  Sparkles, 
+  Scan, 
+  Image as ImageIcon, 
+  Layers 
+} from 'lucide-react';
+import Image from 'next/image';
+import type { LucideIcon } from "lucide-react";
 
-import ToFromSection from './components/ToFromSection';
-import MediaSection from './components/MediaSection';
-import MediaModal from './components/MediaModal';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
-
-interface MediaData {
-  blob: Blob;
-  previewUrl: string;
-  fileName: string;
+interface CardOption {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  recommended?: boolean;
 }
 
-export default function CustomizeCardScreen() {
-  const [fromUser, setFromUser] = useState("Emma");
-  const [toUser, setToUser] = useState("Daniel");
-  const [message, setMessage] = useState("");
-  const [isAnonymous, setIsAnonymous] = useState(false);
+const cardOptions: CardOption[] = [
+  {
+    id: 'digital',
+    title: 'Digital Card',
+    description: 'Delivered Instantly Via Link, Email Or SMS. Add Text, Audio Or Video.',
+    icon: Smartphone,
+  },
+  {
+    id: 'physical',
+    title: 'Physical Card',
+    description: 'Premium Printed Card Delivered To The Door. Add A Gift Card Or Bouquet.',
+    icon: Truck,
+  },
+  {
+    id: 'ai',
+    title: 'AI Greeting Cards',
+    description: 'Create A Unique Card Using AI.',
+    icon: Sparkles,
+  },
+  {
+    id: 'scanner',
+    title: 'Scanner Greeting Cards',
+    description: 'Digitise Your Physical Card.',
+    icon: Scan,
+  },
+  {
+    id: 'photo',
+    title: 'Photo Greeting Cards',
+    description: 'Create A Card From Your Photos.',
+    icon: ImageIcon,
+  },
+  {
+    id: 'both',
+    title: 'Digital + Physical',
+    description: 'Best Of Both — Instant Digital Reveal Plus A Premium Physical Delivery.',
+    icon: Layers,
+    recommended: true,
+  },
+];
 
-  // Estados de Mídia
-  const [audioMedia, setAudioMedia] = useState<MediaData | null>(null);
-  const [videoMedia, setVideoMedia] = useState<MediaData | null>(null);
-  const [photoMedia, setPhotoMedia] = useState<MediaData | null>(null);
+export default function ChooseCardTypePage() {
+  const router = useRouter();
+  const [selectedType, setSelectedType] = useState<string>('digital');
 
-  // Controle de Interface
-  const [activeModal, setActiveModal] = useState<'audio' | 'video' | 'photo' | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-
-  // Define qual mídia será passada para o modal dinamicamente
-  const getSavedMediaForModal = () => {
-    if (activeModal === 'audio') return audioMedia;
-    if (activeModal === 'video') return videoMedia;
-    if (activeModal === 'photo') return photoMedia;
-    return null;
-  };
-
-  const handleSaveMedia = (data: MediaData) => {
-    if (activeModal === 'audio') setAudioMedia(data);
-    if (activeModal === 'video') setVideoMedia(data);
-    if (activeModal === 'photo') setPhotoMedia(data);
-  };
-
-  const handleFinalSubmit = async () => {
-    setIsUploading(true);
-    const formData = new FormData();
-
-    formData.append('from', fromUser);
-    formData.append('to', toUser);
-    formData.append('message', message);
-    formData.append('isAnonymous', String(isAnonymous));
-
-    if (audioMedia) formData.append('audio', audioMedia.blob, audioMedia.fileName);
-    if (videoMedia) formData.append('video', videoMedia.blob, videoMedia.fileName);
-    if (photoMedia) formData.append('photo', photoMedia.blob, photoMedia.fileName);
-
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const result = await response.json();
-
-      if (result.success) {
-        alert("Card successfully customized and uploaded!");
-      } else {
-        alert(`Error: ${result.error}`);
-      }
-    } catch {
-      alert("Failed to submit data.");
-    } finally {
-      setIsUploading(false);
+  const handleContinue = () => {
+    if (selectedType) {
+      // Avança para o próximo passo passando o tipo escolhido
+      router.push(`/create-card/occasion`);
     }
   };
 
   return (
-    <div className="min-h-screen text-white relative flex flex-col bg-[#031A0E] select-none">
+    <main className="relative flex min-h-screen w-full flex-col bg-[#082214] px-5 pt-6 pb-24 text-white select-none overflow-x-hidden font-sans">
       
-      {/* HEADER */}
-      <Header title="Create Your Greeting Card" />
-
-      {/* PROGRESS BAR */}
-      <div className="bg-[#042414]/40 border-b border-[#D4AF37]/10 px-4 py-3 flex justify-between items-center z-10">
-        <Step number={1} label="Occasion" status="completed" />
-        <div className="h-px bg-[#D4AF37]/30 flex-1 mx-2 mt-[-12px]" />
-        <Step number={2} label="Customize" status="active" />
-        <div className="h-px bg-white/10 flex-1 mx-2 mt-[-12px]" />
-        <Step number={3} label="Delivery" status="pending" />
-        <div className="h-px bg-white/10 flex-1 mx-2 mt-[-12px]" />
-        <Step number={4} label="Review" status="pending" />
-      </div>
-
-      {/* FORM CONTENT */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-6 pb-28 z-10 max-w-xl w-full mx-auto">
-        
-        {/* Seção To & From (COMPONENTE INTEGRADO) */}
-        <ToFromSection 
-          fromUser={fromUser} 
-          setFromUser={setFromUser}
-          toUser={toUser} 
-          setToUser={setToUser}
-          isAnonymous={isAnonymous}
-          setIsAnonymous={setIsAnonymous}
-        />
-
-        {/* Message Input */}
-        <div className="space-y-2">
-          <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">
-            Your Message <span className="lowercase font-light text-white/50">(Max 500 characters)</span>
-          </p>
-          <div className="bg-[#042414]/80 rounded-2xl p-5 border border-[#D4AF37]/20 shadow-xl">
-            <textarea 
-              className="w-full h-32 bg-transparent outline-none text-sm leading-relaxed text-white/90 resize-none italic placeholder-white/30"
-              value={message}
-              maxLength={500}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="You are a special person in my life. Thank you for being there and for all the beautiful moments we share together."
+        {/* Imagem de Fundo Otimizada do Next.js */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+            <Image
+            src="/images/img1.svg" // public/images/
+            alt="Background"
+            fill
+            priority
+            quality={85}
+            className="object-cover object-center opacity-30" // Ajuste a opacidade como preferir
             />
-            <div className="text-right text-[10px] text-[#D4AF37]/70 font-medium mt-2">
-              {message.length}/500
-            </div>
-          </div>
         </div>
 
-        {/* Seção de Mídias (COMPONENTE INTEGRADO) */}
-        <MediaSection 
-          audioMedia={audioMedia} setAudioMedia={setAudioMedia}
-          videoMedia={videoMedia} setVideoMedia={setVideoMedia}
-          photoMedia={photoMedia} setPhotoMedia={setPhotoMedia}
-          onOpenModal={(type) => setActiveModal(type)}
-        />
+      {/* Conteúdo Rolável (Header, Título e Lista de Cartões) */}
+      <div className="relative z-10 w-full max-w-md mx-auto px-5 pt-6 pb-28">
+        
+        {/* Header */}
+        <header className="flex items-center justify-between mb-6">
+            <button 
+            onClick={() => router.back()}
+            className="flex h-10 w-10 items-center justify-center
+            border-[#B08D2A] bg-[#0B2C1A] hover:bg-[#0E351F]
+             rounded-lg text-emerald-100
+              transition-all active:scale-95 border"
+            aria-label="Voltar"
+            >
+            <ArrowLeft className="h-5 w-5" />
+            </button>
 
-        {/* Gift Card Card */}
-        <div className="space-y-3">
-          <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">ADD GIFT CARD</p>
-          <div className="bg-[#042414]/80 rounded-2xl p-4 border border-[#D4AF37]/20
-           shadow-xl flex items-center justify-between group cursor-pointer hover:border-[#D4AF37]/60 transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-8 bg-[#D4AF37]/10 rounded-md flex items-center justify-center text-[#D4AF37]">
-                <Gift className="w-5 h-5" />
+          <h1 className="text-base font-semibold text-stone-100">
+            Choose Card Type
+          </h1>
+
+          <div className="text-xs font-medium text-stone-300">
+            Step <span className="text-[#D4A038] font-bold">1</span> of 3
+          </div>
+        </header>
+
+        {/* Headline */}
+        <div className="mb-6">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#D4A038] leading-tight">
+            How would you like to send it?
+          </h2>
+          <p className="mt-1.5 text-xs sm:text-sm text-stone-300 font-normal">
+            Choose How Your Greeting Card Will Be Delivered.
+          </p>
+        </div>
+
+        {/* Opções de Seleção */}
+        <div className="space-y-3.5">
+          {cardOptions.map((option) => {
+            const Icon = option.icon;
+            const isSelected = selectedType === option.id;
+
+            return (
+              <div
+                key={option.id}
+                onClick={() => setSelectedType(option.id)}
+                className={`relative flex items-center gap-4 rounded-2xl p-4 cursor-pointer transition-all ${
+                  isSelected
+                    ? 'border-2 border-[#B08D2A] bg-[#0B2C1A] shadow-lg shadow-[#D4A038]/10'
+                    : 'border border-emerald-800/60 bg-[#0B2C1A]/80 hover:border-emerald-700/80 hover:bg-[#0B2C1A]'
+                }`}
+              >
+                {/* Badge RECOMMENDED */}
+                {option.recommended && (
+                  <div className="absolute -top-2.5 right-4 rounded-md bg-[#B88E2C] px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-black shadow-md">
+                    Recommended
+                  </div>
+                )}
+
+                {/* Ícone */}
+                <div
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border ${
+                    isSelected
+                      ? 'border-[#B08D2A]/60 bg-[#143B27] text-[#D4A038]'
+                      : 'border-emerald-800/80 bg-[#123824] text-stone-300'
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+
+                {/* Textos */}
+                <div className="flex-1 pr-2">
+                  <h3 className="text-sm font-semibold text-stone-100">
+                    {option.title}
+                  </h3>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-stone-400 font-light">
+                    {option.description}
+                  </p>
+                </div>
               </div>
-              <span className="text-xs font-medium text-white/80 uppercase tracking-wide">Add a gift card</span>
-            </div>
-            <PlusSquare className="w-5 h-5 text-[#D4AF37]" />
-          </div>
+            );
+          })}
+        </div>
+
+      </div>
+
+      {/* RODAPÉ FIXO COM O BOTÃO CONTINUE */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-4 pt-2 pointer-events-none">
+        <div className="pointer-events-auto flex w-full 
+        max-w-md items-center justify-around rounded-t-2xl  border-t border-transition-all border-[#B08D2A] hover:border-[#B08D2A]/70
+        hover:bg-[#103822] active:scale-[0.98]80 bg-[#0B2C1A]/95 px-3 py-2 shadow-2xl backdrop-blur-md">
+          <button
+            onClick={handleContinue}
+            disabled={!selectedType}
+            className="w-full rounded-2xl border border-emerald-700/50 bg-[#0E3A24] py-3.5 text-center text-sm font-medium text-emerald-200/80 shadow-lg transition-all hover:bg-[#144d31] hover:text-white active:scale-[0.99] disabled:opacity-50"
+          >
+            Continue
+          </button>
         </div>
       </div>
 
-      {/* BOTÃO SUBMIT FIXO NO MEIO/FUNDO DO ECRÃ */}
-      <div className=" p-5 bg-gradient-to-t
-       from-[#031A0E] via-[#031A0E]/95 to-transparent flex justify-center">
-        <button 
-          onClick={handleFinalSubmit}
-          disabled={isUploading}
-          className="w-full max-w-xl py-4 bg-[#D4AF37] hover:bg-[#bfa032] disabled:bg-[#D4AF37]/40
-           text-[#031A0E] font-bold rounded-xl shadow-xl 
-           tracking-widest text-xs uppercase flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
-        >
-          {isUploading ? <Loader2 className="animate-spin w-4 h-4" /> : "Preview Card"}
-        </button>
-      </div>
-
-      {/* FOOTER (Adiciona um espaçamento no fundo do footer para o botão não tapar o seu conteúdo) */}
-      <div className="pb-16"> 
-        <Footer />
-      </div>
-
-      {/* Modal Dinâmico de Mídia (COMPONENTE INTEGRADO) */}
-      {activeModal && (
-        <MediaModal 
-          activeModal={activeModal}
-          onClose={() => setActiveModal(null)}
-          onSaveMedia={handleSaveMedia}
-          savedMedia={getSavedMediaForModal()}
-        />
-      )}
-    </div>
-  );
-}
-
-// Subcomponente de Estágios
-function Step({ number, label, status }: { number: number; label: string; status: 'completed' | 'active' | 'pending' }) {
-  const styles = {
-    completed: "bg-[#169B62] text-white border-[#169B62]",
-    active: "bg-[#D4AF37] text-[#031A0E] border-[#D4AF37] ring-4 ring-[#D4AF37]/15",
-    pending: "bg-[#042414] text-white/30 border-white/10"
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-1.5">
-      <div className={`w-6 h-6 rounded-full border flex items-center justify-center text-[10px] font-bold transition-all ${styles[status]}`}>
-        {status === 'completed' ? <Check className="w-3 h-3 stroke-[3]" /> : number}
-      </div>
-      <span className={`text-[9px] font-bold uppercase tracking-widest ${status === 'pending' ? 'text-white/30' : 'text-[#D4AF37]'}`}>
-        {label}
-      </span>
-    </div>
+    </main>
   );
 }
