@@ -28,10 +28,12 @@ const cardOptions: CardOption[] = [
     title: 'Digital Card',
     description: 'Delivered Instantly Via Link, Email Or SMS. Add Text, Audio Or Video.',
     icon: Smartphone,
+    recommended: true,
+
   },
   {
-    id: 'physical',
-    title: 'Physical Card',
+    id: 'Printed',
+    title: 'Printed Card',
     description: 'Premium Printed Card Delivered To The Door. Add A Gift Card Or Bouquet.',
     icon: Truck,
   },
@@ -44,7 +46,7 @@ const cardOptions: CardOption[] = [
   {
     id: 'scanner',
     title: 'Scanner Greeting Cards',
-    description: 'Digitise Your Physical Card.',
+    description: 'Digitise Your Printed Card.',
     icon: Scan,
   },
   {
@@ -55,10 +57,9 @@ const cardOptions: CardOption[] = [
   },
   {
     id: 'both',
-    title: 'Digital + Physical',
-    description: 'Best Of Both — Instant Digital Reveal Plus A Premium Physical Delivery.',
+    title: 'Digital + Printed',
+    description: 'Best Of Both — Instant Digital Reveal Plus A Premium Printed Delivery.',
     icon: Layers,
-    recommended: true,
   },
 ];
 
@@ -135,13 +136,13 @@ export default function ChooseCardTypePage() {
                 onClick={() => setSelectedType(option.id)}
                 className={`relative flex items-center gap-4 rounded-2xl p-4 cursor-pointer transition-all ${
                   isSelected
-                    ? 'border-2 border-[#B08D2A] bg-[#0B2C1A] shadow-lg shadow-[#D4A038]/10'
-                    : 'border border-emerald-800/60 bg-[#0B2C1A]/80 hover:border-emerald-700/80 hover:bg-[#0B2C1A]'
+                    ? 'border-2 border-[#B08D2A] bg-[#B08D2A]/20 shadow-lg shadow-[#D4A038]/10'
+                    : ' shadow-lg shadow-[#D4A038]/10 border border-[#B08D2A]/70 bg-[#0B2C1A]/80 hover:border-emerald-700/80 hover:bg-[#0B2C1A]'
                 }`}
               >
                 {/* Badge RECOMMENDED */}
                 {option.recommended && (
-                  <div className="absolute -top-2.5 right-4 rounded-md bg-[#B88E2C] px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-black shadow-md">
+                  <div className="absolute -top-2.5 right-4 rounded-md bg-[#B08D2A] px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-black shadow-md">
                     Recommended
                   </div>
                 )}
@@ -150,8 +151,8 @@ export default function ChooseCardTypePage() {
                 <div
                   className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border ${
                     isSelected
-                      ? 'border-[#B08D2A]/60 bg-[#143B27] text-[#D4A038]'
-                      : 'border-emerald-800/80 bg-[#123824] text-stone-300'
+                      ? 'border-[#B08D2A]/70 bg-[#B08D2A]/30 text-[#D4A038]'
+                      : 'border-[#B08D2A]/70 bg-[#B08D2A]/20 text-stone-300'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -174,7 +175,7 @@ export default function ChooseCardTypePage() {
       </div>
 
       {/* RODAPÉ FIXO COM O BOTÃO CONTINUE */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pb-4 pt-2 pointer-events-none">
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4 pt-2 pointer-events-none">
         <div className="pointer-events-auto flex w-full 
         max-w-md items-center justify-around rounded-t-2xl  border-t border-transition-all border-[#B08D2A] hover:border-[#B08D2A]/70
         hover:bg-[#103822] active:scale-[0.98]80 bg-[#0B2C1A]/95 px-3 py-2 shadow-2xl backdrop-blur-md">

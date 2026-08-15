@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function HeroBanner() {
   
   return (
-    <section className="relative my-3 w-full shadow-lg shadow-[#D4A038]/10 overflow-hidden rounded-3xl border border-[#B08D2A]/70 bg-[#0B2C1A]/90 p-5">
+    <section className="relative my-3 w-full shadow-lg shadow-[#D4A038]/10 border border-[#B08D2A]/70 overflow-hidden rounded-3xl  bg-[#0B2C1A]/90 p-5">
       {/* Brilho decorativo de fundo */}
       <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none" />
 
