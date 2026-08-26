@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Mail, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
-
+import Link from 'next/link';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -27,7 +27,6 @@ export default function ForgotPasswordPage() {
     console.log('Resending reset link to:', email);
     setShowToast(true);
 
-    // Oculta o Toast automaticamente após 4 segundos
     setTimeout(() => {
       setShowToast(false);
     }, 4000);
@@ -39,22 +38,21 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen w-full flex-col justify-between bg-[#082214] px-6 py-8 text-white select-none overflow-hidden font-sans">
+    <main className="relative flex min-h-dvh w-full flex-col justify-between bg-[#082214] px-4 py-6 sm:px-8 sm:py-8 text-white select-none overflow-hidden font-sans">
       
-       {/* Imagem de Fundo Otimizada do Next.js */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-            <Image
-            src="/images/img1.svg" // public/images/
-            alt="Background"
-            fill
-            priority
-            quality={85}
-            className="object-cover object-center opacity-30" // Ajuste a opacidade como preferir
-            />
-        </div>
+      {/* Imagem de Fundo Otimizada */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <Image
+          src="/images/img1.svg"
+          alt="Background Texture"
+          fill
+          priority
+          quality={85}
+          className="object-cover object-center opacity-25"
+        />
+      </div>
 
-
-      {/* Header com botão de voltar */}
+      {/* Header com Botão Voltar */}
       <header className="relative z-10 flex w-full items-center justify-between min-h-[40px]">
         <button 
           onClick={() => {
@@ -65,36 +63,32 @@ export default function ForgotPasswordPage() {
               router.back();
             }
           }}
-                      className="flex h-10 w-10 items-center justify-center
-                        border-[#B08D2A] bg-[#0B2C1A] hover:bg-[#0E351F]
-                         rounded-lg bg-[#143B27] text-emerald-100
-                        transition-all hover:bg-[#1B4D33] active:scale-95 border"
-                        aria-label="Voltar"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] active:scale-95 shadow-sm"
+          aria-label="Voltar"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
 
-
-        <div className="w-10 h-10" />
+        <div className="h-10 w-10" />
       </header>
 
       {/* ========================================================= */}
-      {/* TELA 1: FORGOT PASSWORD */}
+      {/* TELA 1: FORGOT PASSWORD                                   */}
       {/* ========================================================= */}
       {!isSubmitted ? (
-        <section className="relative z-10 my-auto flex w-full max-w-md flex-col justify-center pt-2 pb-6 mx-auto animate-fade-in">
+        <section className="relative z-10 my-auto flex w-full max-w-sm sm:max-w-md flex-col justify-center py-4 mx-auto animate-fade-in">
           
-          <div className="mb-8">
+          <div className="mb-6 text-center">
             <h1 className="font-serif text-3xl sm:text-4xl font-normal text-stone-100">
               Forgot Password
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-stone-300 font-normal leading-relaxed">
+            <p className="mt-1.5 text-xs sm:text-sm text-stone-300 font-normal leading-relaxed">
               Enter Your Email Address To Reset Your Password
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="w-full space-y-6">
-            <div className="relative flex items-center rounded-2xl border border-[#B08D2A]/70 bg-[#0B2C1A] px-4 py-3.5 focus-within:border-[#B08D2A] focus-within:ring-1 focus-within:ring-[#B08D2A]">
+          <form onSubmit={handleSubmit} className="w-full space-y-4">
+            <div className="relative flex items-center rounded-2xl border border-[#B08D2A]/60 bg-[#0B2C1A]/80 px-4 py-3 sm:py-3.5 transition-all focus-within:border-[#B08D2A] focus-within:ring-1 focus-within:ring-[#B08D2A]">
               <Mail className="h-5 w-5 text-[#B08D2A] mr-3 shrink-0" />
               <input
                 type="email"
@@ -102,81 +96,95 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-transparent text-sm text-white placeholder-stone-400 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-sm text-white placeholder-stone-400 focus:outline-none"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-2xl bg-[#B08D2A] py-4 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
+              className="w-full rounded-2xl bg-[#B08D2A] py-3.5 sm:py-4 text-center text-sm font-semibold text-white shadow-md transition-all hover:bg-[#a27c24] active:scale-[0.99]"
             >
               Send Reset Link
             </button>
           </form>
 
-          <div className="mt-6 w-full">
-            <button
-              onClick={() => router.push('/login')}
-              className="w-full rounded-2xl bg-[#0F3D2E] border border-emerald-800/80 py-3.5 text-center transition-all hover:bg-[#144d3b] active:scale-[0.99]"
+          {/* Divisor Voltar para o Login */}
+          <div className="mt-6 flex w-full items-center justify-center gap-2">
+            <div className="h-[1px] flex-1 bg-stone-500/30" />
+            <Link 
+              href="/login" 
+              className="text-xs font-light text-stone-300 hover:text-white transition-colors whitespace-nowrap"
             >
-              <div className="flex items-center justify-center gap-3 w-full px-4">
-                <span className="text-xs sm:text-sm text-stone-200 font-medium">
-                  Back to Login
-                </span>
-              </div>
-            </button>
+              Back to Login
+            </Link>
+            <div className="h-[1px] flex-1 bg-stone-500/30" />
           </div>
 
         </section>
       ) : (
         
         /* ========================================================= */
-        /* TELA 2: CHECK YOUR INBOX */
+        /* TELA 2: CHECK YOUR INBOX                                  */
         /* ========================================================= */
-        <section className="relative z-10 my-auto flex w-full max-w-md flex-col justify-center pt-2 pb-6 mx-auto animate-fade-in">
+        <section className="relative z-10 my-auto flex w-full max-w-sm sm:max-w-md flex-col justify-center py-4 mx-auto animate-fade-in">
           
-          {/* Toast Notification (Exibido ao clicar em Resend Email) */}
+          {/* Toast Notification */}
           {showToast && (
-            <div className="mb-6 flex items-center gap-3 rounded-2xl border border-[#B08D2A]/60 bg-[#0B2C1A]/90 p-4 shadow-lg transition-all">
-              <span className="text-lg">✨</span>
+            <div className="mb-4 flex items-center gap-3 rounded-2xl border border-[#B08D2A]/60 bg-[#0B2C1A]/90 p-3.5 shadow-lg transition-all animate-bounce">
+              <span className="text-base">✨</span>
               <p className="text-xs text-stone-200 font-normal leading-tight">
-                A Fresh password reset link has been dispatched to your email
+                A fresh password reset link has been dispatched to your email.
               </p>
             </div>
           )}
 
-          <div className="mb-8">
+          <div className="mb-6 text-center">
             <h1 className="font-serif text-3xl sm:text-4xl font-normal text-stone-100">
               Check Your Inbox
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-stone-300 font-normal leading-relaxed">
+            <p className="mt-1.5 text-xs sm:text-sm text-stone-300 font-normal leading-relaxed px-2">
               We&apos;ve Sent Password Reset Instructions To <span className="text-white font-medium">{email || 'Your Email'}</span>. Follow The Link To Create A New Password.
             </p>
           </div>
 
-          <div className="w-full space-y-4">
+          <div className="w-full space-y-3.5">
+            {/* Input E-mail Exibido (Desabilitado/Read-only) */}
+            <div className="relative flex items-center rounded-2xl border border-[#B08D2A]/60 bg-[#0B2C1A]/80 px-4 py-3 sm:py-3.5 opacity-90">
+              <Mail className="h-5 w-5 text-[#B08D2A] mr-3 shrink-0" />
+              <input
+                type="email"
+                value={email || 'Email Address'}
+                readOnly
+                disabled
+                className="w-full bg-transparent text-xs sm:text-sm text-stone-200 focus:outline-none cursor-default"
+              />
+            </div>
+
+            {/* Botão Principal: Open Email App */}
             <button
               onClick={handleOpenEmailApp}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#B88E2C] py-4 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#B08D2A] py-3.5 sm:py-4 text-center text-sm font-semibold text-white shadow-md transition-all hover:bg-[#a27c24] active:scale-[0.99]"
             >
               <span>Open Email App</span>
               <ExternalLink className="h-4 w-4" />
             </button>
-
-            <button
-              onClick={() => router.push('/login')}
-              className="w-full rounded-2xl bg-[#0F3D2E] border border-emerald-800/80 py-3.5 text-center transition-all hover:bg-[#144d3b] active:scale-[0.99]"
-            >
-              <div className="flex items-center justify-center gap-3 w-full px-4">
-                <span className="text-xs sm:text-sm text-stone-200 font-medium">
-                  Back to Login
-                </span>
-              </div>
-            </button>
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="text-xs sm:text-sm text-stone-300">
+          {/* Botão Secundário / Divisor Estilizado para Login */}
+          <div className="mt-5 flex w-full items-center justify-center gap-2">
+            <div className="h-[1px] flex-1 bg-stone-500/30" />
+            <button
+              onClick={() => router.push('/login')}
+              className="text-xs font-light text-stone-300 hover:text-white transition-colors whitespace-nowrap focus:outline-none"
+            >
+              Back to Login
+            </button>
+            <div className="h-[1px] flex-1 bg-stone-500/30" />
+          </div>
+
+          {/* Reenviar Email */}
+          <div className="mt-6 text-center">
+            <p className="text-xs text-stone-300">
               Didn&apos;t Receive The Mail?{' '}
               <button 
                 type="button"
@@ -190,6 +198,11 @@ export default function ForgotPasswordPage() {
 
         </section>
       )}
+
+      {/* Footer Branding */}
+      <footer className="relative z-10 py-1 text-center text-[10px] text-stone-500">
+        &copy; {new Date().getFullYear()} Ireland, My Green Diamond.
+      </footer>
 
     </main>
   );

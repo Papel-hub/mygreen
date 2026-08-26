@@ -8,16 +8,11 @@ export default function WelcomeScreen() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasRedirectedRef = useRef(false);
 
-  /**
-   * Garante que o vídeo esteja mutado e tenta
-   * iniciar o autoplay assim que a página carregar.
-   */
   useEffect(() => {
     const video = videoRef.current;
 
     if (!video) return;
 
-    // Necessário para permitir autoplay nos navegadores
     video.muted = true;
     video.playsInline = true;
 
@@ -25,54 +20,46 @@ export default function WelcomeScreen() {
       try {
         await video.play();
       } catch {
-        // Alguns navegadores podem bloquear autoplay.
-        // Não fazemos nada nesse caso.
+        // Trata erro de autoplay bloqueado
       }
     };
 
     void startVideo();
   }, []);
 
-  /**
-   * Redireciona imediatamente quando o vídeo terminar.
-   */
   const handleVideoEnded = () => {
     if (hasRedirectedRef.current) return;
-
     hasRedirectedRef.current = true;
-
     router.replace('/welcome');
   };
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-between bg-white px-6 py-12 text-slate-900 select-none">
+    <main className="relative flex min-h-dvh w-full flex-col items-center justify-between bg-white px-4 py-6 sm:px-8 sm:py-10 md:py-14 select-none">
       
-      {/* Espaçador superior */}
-      <div className="h-2 w-full" />
+      {/* Espaçador Superior Fluido */}
+      <div aria-hidden="true" className="h-2 w-full flex-shrink-0" />
 
       {/* Conteúdo Central */}
-      <section className="flex w-full max-w-md flex-col items-center text-center">
+      <section className="flex w-full max-w-lg flex-col items-center justify-center text-center my-auto py-4">
         
         {/* Título Principal */}
-        <h1 className="animate-slide-down font-serif text-3xl font-normal tracking-wide text-[var(--color-brand-title,#2F2D29)] sm:text-4xl">
+        <h1 className="animate-slide-down font-serif text-2xl font-normal tracking-wide text-[var(--color-brand-title,#2F2D29)] xs:text-3xl sm:text-4xl md:text-5xl">
           Ireland, my green diamond
         </h1>
 
         {/* Divisor com Subtítulo */}
-        <div className="animate-slide-down animation-delay-200 mt-4 flex w-full max-w-xs items-center justify-center gap-3">
-          
+        <div className="animate-slide-down animation-delay-200 mt-3 flex w-full max-w-xs items-center justify-center gap-3 sm:mt-4 sm:max-w-sm">
           <div className="h-px flex-1 bg-[var(--color-brand-green,#0F3D2E)]/40" />
-
-          <span className="text-xs font-medium tracking-wide text-[var(--color-brand-green,#0F3D2E)] sm:text-sm">
+          
+          <span className="whitespace-nowrap text-xs font-medium tracking-wide text-[var(--color-brand-green,#0F3D2E)] sm:text-sm md:text-base">
             For All Occasions
           </span>
 
           <div className="h-px flex-1 bg-[var(--color-brand-green,#0F3D2E)]/40" />
-
         </div>
 
-        {/* Vídeo */}
-        <div className="relative mt-12 mb-8 flex h-64 w-64 items-center justify-center sm:h-72 sm:w-72">
+        {/* Vídeo / Ilustração */}
+        <div className="relative mt-6 mb-4 flex aspect-square w-56 items-center justify-center xs:w-64 sm:mt-10 sm:mb-6 sm:w-72 md:w-80">
           <video
             ref={videoRef}
             src="/videos/splash.mp4"
@@ -81,23 +68,19 @@ export default function WelcomeScreen() {
             autoPlay
             preload="auto"
             onEnded={handleVideoEnded}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             aria-label="Ireland My Green Diamond Logo"
           />
         </div>
 
       </section>
 
-      {/* Loading Indicator */}
-      <footer className="flex w-full max-w-md justify-center pb-8">
-        <div className="flex items-center gap-2.5">
-          
-          <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] [animation-delay:-0.3s]" />
-
-          <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] [animation-delay:-0.15s]" />
-
-          <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)]" />
-
+      {/* Indicador de Carregamento (Footer) */}
+      <footer className="flex w-full flex-shrink-0 justify-center pb-2 sm:pb-4">
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] sm:h-2.5 sm:w-2.5 [animation-delay:-0.3s]" />
+          <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] sm:h-2.5 sm:w-2.5 [animation-delay:-0.15s]" />
+          <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] sm:h-2.5 sm:w-2.5" />
         </div>
       </footer>
 
