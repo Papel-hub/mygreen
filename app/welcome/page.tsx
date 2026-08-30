@@ -65,7 +65,7 @@ export default function WelcomeOnboarding() {
         {/* Branding (Apenas na ETAPA 1) */}
         {step === 1 ? (
           <div className="flex flex-col items-center text-center">
-            <h2 className="font-serif text-base sm:text-lg font-normal tracking-wide text-stone-200">
+            <h2 className="font-serif text-base sm:text-2xl font-normal tracking-wide text-stone-200">
               Ireland, my green diamond
             </h2>
             <div className="mt-0.5 flex items-center justify-center gap-2 w-full">
@@ -87,18 +87,18 @@ export default function WelcomeOnboarding() {
       {/* ETAPA 1: TELA DE BOAS-VINDAS */}
       {/* ========================================================= */}
       {step === 1 && (
-        <section className="relative z-10 my-auto flex w-full max-w-md flex-col justify-center text-center items-center py-6 mx-auto animate-fade-in">
+        <section className="relative z-10 my-auto max-w-6xl mx-auto w-full flex
+          flex-col justify-center text-center items-center  px-4 sm:px-8 lg:px-16 pt-16 sm:pt-24 pb-12 animate-fade-in">
           <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-serif font-bold leading-tight tracking-tight text-stone-100">
-            Welcome To <br />
-            Ireland, <span className="text-[#B08D2A]">My</span> <br />
-            <span className="text-[#B08D2A]">Green</span> Diamond
+            Welcome To Ireland, <br />
+            <span className="text-[#B08D2A]">My Green</span> Diamond
           </h1>
 
-          <p className="mt-4 text-xs sm:text-sm md:text-base font-normal text-stone-300 leading-relaxed max-w-xs">
+          <p className="mt-4 text-xs sm:text-sm md:text-base font-normal text-stone-300 leading-relaxed max-w-6xl">
             Premium Greeting Cards, Gift Cards &amp; Bouquet Delivery
           </p>
 
-          <div className="mt-8 w-full max-w-xs">
+          <div className="mt-8 w-full px-12 max-w-2xl sm:px-12">
             <button
               onClick={handleNextStep}
               className="w-full rounded-2xl bg-[#B08D2A] py-3.5 sm:py-4 text-center text-sm sm:text-base font-semibold text-white shadow-md transition-all hover:bg-[#a27c24] active:scale-[0.99]"
@@ -219,18 +219,6 @@ export default function WelcomeOnboarding() {
 
           </div>
 
-          {/* Divisor com Link "Continue as Guest" conforme a imagem */}
-          <div className="mt-6 flex w-full items-center justify-center gap-2">
-            <div className="h-[1px] flex-1 bg-stone-500/30" />
-            <Link 
-              href="/home"
-              className="text-xs font-light text-stone-300 hover:text-white transition-colors"
-            >
-              Continue as Guest
-            </Link>
-            <div className="h-[1px] flex-1 bg-stone-500/30" />
-          </div>
-
           {/* Termos de Uso */}
           <p className="mt-4 text-[10px] sm:text-[11px] text-center text-stone-400 leading-tight">
             By continuing, you agree to our{' '}
@@ -249,7 +237,8 @@ export default function WelcomeOnboarding() {
       {/* ETAPA 3: AUTENTICAÇÃO */}
       {/* ========================================================= */}
       {step === 3 && (
-        <section className="relative z-10 my-auto flex w-full max-w-md flex-col items-center text-center py-4 mx-auto animate-fade-in">
+        <section className="relative z-10 my-auto flex w-full max-w-md flex-col
+         px-4 items-center text-center py-4 mx-auto animate-fade-in">
           
           <div className="relative mb-6 h-28 w-28 sm:h-36 sm:w-36 flex items-center justify-center">
             <Image
@@ -283,7 +272,19 @@ export default function WelcomeOnboarding() {
             >
               Create Account
             </button>
+            
           </div>
+                  {/* Divisor "Continue as Guest" */}
+        <div className="my-5 px-8 flex w-full items-center justify-center gap-2">
+          <div className="h-[1px] flex-1 bg-stone-500/30" />
+          <Link 
+            href="/home" 
+            className="text-xs font-light text-stone-300 hover:text-white transition-colors whitespace-nowrap"
+          >
+            Continue as Guest
+          </Link>
+          <div className="h-[1px] flex-1 bg-stone-500/30" />
+        </div>
 
         </section>
       )}

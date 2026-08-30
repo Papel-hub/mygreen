@@ -36,11 +36,8 @@ export default function WelcomeScreen() {
   return (
     <main className="relative flex min-h-dvh w-full flex-col items-center justify-between bg-white px-4 py-6 sm:px-8 sm:py-10 md:py-14 select-none">
       
-      {/* Espaçador Superior Fluido */}
-      <div aria-hidden="true" className="h-2 w-full flex-shrink-0" />
-
       {/* Conteúdo Central */}
-      <section className="flex w-full max-w-lg flex-col items-center justify-center text-center my-auto py-4">
+      <section className="flex w-full max-w-lg flex-col items-center justify-center text-center my-auto py-2">
         
         {/* Título Principal */}
         <h1 className="animate-slide-down font-serif text-2xl font-normal tracking-wide text-[var(--color-brand-title,#2F2D29)] xs:text-3xl sm:text-4xl md:text-5xl">
@@ -59,7 +56,7 @@ export default function WelcomeScreen() {
         </div>
 
         {/* Vídeo / Ilustração */}
-        <div className="relative mt-6 mb-4 flex aspect-square w-56 items-center justify-center xs:w-64 sm:mt-10 sm:mb-6 sm:w-72 md:w-80">
+        <div className="relative mt-3 mb-4 flex aspect-square w-full items-center justify-center xs:w-64 sm:mt-5 sm:mb-3 sm:w-72 md:w-100">
           <video
             ref={videoRef}
             src="/videos/splash.mp4"
@@ -76,7 +73,7 @@ export default function WelcomeScreen() {
       </section>
 
       {/* Indicador de Carregamento (Footer) */}
-      <footer className="flex w-full flex-shrink-0 justify-center pb-2 sm:pb-4">
+      <footer className="flex w-full flex-shrink-0 justify-center sm:pb-2">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] sm:h-2.5 sm:w-2.5 [animation-delay:-0.3s]" />
           <span className="h-2 w-2 animate-bounce rounded-full bg-[var(--color-brand-accent,#169B62)] sm:h-2.5 sm:w-2.5 [animation-delay:-0.15s]" />
