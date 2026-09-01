@@ -43,12 +43,9 @@ export default function ChooseCardTypePage() {
           className="object-cover object-center opacity-20"
         />
       </div>
-
-      <div className="relative z-10 flex-1 w-full max-w-xl mx-auto px-4 sm:px-6 pt-6 pb-28 flex flex-col justify-between">
-        <div>
           {/* Header */}
-          <header className="flex items-center justify-between mb-6">
-            <button 
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">            <button 
               onClick={() => router.back()}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] active:scale-95 shadow-sm"
               aria-label="Voltar"
@@ -65,9 +62,15 @@ export default function ChooseCardTypePage() {
             </div>
           </header>
 
+      <div className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
+
+
+
+
           {/* Título Principal */}
-          <div className="mb-6">
-            <h2 className="font-serif text-xl sm:text-2xl font-normal text-[#B08D2A] leading-tight">
+        {/* Headline */}
+        <div className="mb-6 sm:px-8 px-3">
+          <h2 className="font-serif text-2xl font-normal leading-tight text-[#B08D2A] sm:text-3xl">
               Add an official gift card
             </h2>
             <p className="mt-0.5 text-xs text-stone-300 font-normal">
@@ -184,7 +187,6 @@ export default function ChooseCardTypePage() {
               )}
             </div>
           </div>
-        </div>
 
         {/* Rodapé Fixo */}
         <footer className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-[#061B10]/95 px-4 py-4 border-t border-[#B08D2A]/30 backdrop-blur-md">
@@ -201,7 +203,7 @@ export default function ChooseCardTypePage() {
               onClick={handleAddGiftCard}
               className="w-2/3 rounded-2xl bg-[#B08D2A] border border-[#B08D2A] py-3.5 text-center text-xs sm:text-sm font-semibold text-[#082214] hover:bg-[#c6a032] active:scale-[0.99] transition-all shadow-md shadow-amber-900/20"
             >
-              Add Gift Card &rarr;
+              Add Gift Card 
             </button>
           </div>
         </footer>

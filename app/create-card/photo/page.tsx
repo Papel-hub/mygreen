@@ -73,16 +73,9 @@ export default function PhotoGreetingCardsFlow() {
           className="object-cover object-center opacity-20"
         />
       </div>
-
-      {/* ========================================== */}
-      {/* TELA 1: CHOOSE PHOTO SOURCE (Step 1 of 6)  */}
-      {/* ========================================== */}
-      {currentStep === 'source' && (
-        <div className="relative z-10 flex-1 w-full max-w-2xl mx-auto px-4 sm:px-8 pt-6 pb-28 flex flex-col justify-between">
-          <div>
-            {/* Header */}
-            <header className="flex items-center justify-between mb-8">
-              <button 
+        {/* Step Header */}
+              <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+              border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">              <button 
                 onClick={() => router.back()}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] active:scale-95 shadow-sm"
                 aria-label="Voltar"
@@ -98,11 +91,17 @@ export default function PhotoGreetingCardsFlow() {
                 Step <span className="text-[#B08D2A] font-bold">1</span> of 6
               </div>
             </header>
+      {/* ========================================== */}
+      {/* TELA 1: CHOOSE PHOTO SOURCE (Step 1 of 6)  */}
+      {/* ========================================== */}
+      {currentStep === 'source' && (
+        <div className="relative z-10 flex-1 w-full max-w-2xl mx-auto px-4 sm:px-8 pt-6 pb-28 flex flex-col justify-between">
+          <div>
 
-            {/* Title */}
-            <div className="mb-6">
-              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#B08D2A] leading-tight">
-                Choose Photo Source
+            {/* Headline */}
+            <div className="mb-6 sm:px-8 px-3">
+              <h2 className="font-serif text-2xl font-normal leading-tight text-[#B08D2A] sm:text-3xl">
+              Choose Photo Source
               </h2>
               <p className="mt-1 text-xs sm:text-sm text-stone-300 font-normal">
                 Create Your Greeting Card Using Your Own Photos.
@@ -168,21 +167,15 @@ export default function PhotoGreetingCardsFlow() {
           </div>
 
           {/* Footer Controls */}
-          <footer className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-[#061B10]/95 px-4 py-4 border-t border-[#B08D2A]/30 backdrop-blur-md">
-            <div className="w-full max-w-md flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="w-1/3 rounded-2xl border border-[#B08D2A]/40 bg-[#0B2C1A] py-3.5 text-center text-xs sm:text-sm font-semibold text-stone-300 hover:bg-[#0E351F] active:scale-[0.99]"
-              >
-                Back
-              </button>
+      {/* Fixed Sticky Footer */}
+      <footer className="fixed bottom-0 left-0 right-0 z-50 flex justify-center border-t border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md">
+        <div className="w-full max-w-md">
               <button
                 type="button"
                 onClick={() => setCurrentStep('upload')}
                 className="w-2/3 rounded-2xl bg-[#B08D2A] border border-[#B08D2A] py-3.5 text-center text-xs sm:text-sm font-semibold text-[#082214] hover:bg-[#c6a032] active:scale-[0.99] transition-all shadow-md shadow-amber-900/20"
               >
-                Continue &rarr;
+                Continue 
               </button>
             </div>
           </footer>

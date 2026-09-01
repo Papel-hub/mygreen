@@ -3,15 +3,31 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Eye, ArrowRight } from 'lucide-react';
-import RealTimePreviewModal from './../components/RealTimePreviewModal';
+import CardPreviewModal from './../components/CardPreviewModal';
+
+const occasions = [
+  { id: 'romantic', label: 'Romantic' },
+  { id: 'friendship', label: 'Friendship' },
+  { id: 'birthday', label: 'Birthday' },
+  { id: 'wedding', label: 'Wedding' },
+  { id: 'family', label: 'Family' },
+  { id: 'luxury', label: 'Luxury Edition' },
+];
 
 export default function RecipientDetailsPage() {
   const router = useRouter();
 
-  const [toName, setToName] = useState<string>('Emma');
-  const [fromName, setFromName] = useState<string>('Daniel');
+  const [toName, setToName] = useState<string>('');
+  const [fromName, setFromName] = useState<string>('');
   const [sendAnonymously, setSendAnonymously] = useState<boolean>(false);
-  const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
+  const [customTitle, setCustomTitle] = useState<string>('');
+  
+  // Estado de Abertura do Modal
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const getSelectedLabel = () => {
+    return occasions.find((o) => o.id === selectedOccasion)?.label || 'Romantic';
+  };
+  const [selectedOccasion, setSelectedOccasion] = useState<string>('romantic');
 
   const handleContinue = () => {
     // Avançar para a etapa de mídia
@@ -32,11 +48,9 @@ export default function RecipientDetailsPage() {
           backgroundImage: `radial-gradient(circle at center, rgba(15, 61, 46, 0.4) 0%, rgba(8, 34, 20, 1) 100%), url('/images/shamrock-pattern.png')`
         }}
       />
-
-      <div className="relative z-10 w-full max-w-md mx-auto px-5 pt-6 pb-24">
-        
         {/* Header */}
-        <header className="flex items-center justify-between mb-6">
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">  
           <button
             onClick={() => router.back()}
             className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#B08D2A]/50 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#123824] active:scale-95"
@@ -50,52 +64,56 @@ export default function RecipientDetailsPage() {
           </h1>
 
           <div className="text-xs font-medium text-stone-300">
-            Step <span className="text-[#D4A038] font-bold">1</span> of 3
+            Step <span className="text-[#D4A038] font-bold">2</span> of 4
           </div>
         </header>
 
+      <div className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
+        
+
+
         {/* Headline */}
-        <div className="mb-6">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#D4A038] leading-tight">
+        <div className="mb-6 sm:px-8 px-3">
+          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#B08D2A]">
             Recipient & Details
           </h2>
-          <p className="mt-1.5 text-xs sm:text-sm text-stone-300 font-normal">
+          <p className="mt-1.5 text-xs sm:text-sm text-stone-300">
             Enter Your Recipient&apos;s Details To Personalize Your Greeting.
           </p>
         </div>
 
         {/* Form Fields */}
-        <div className="space-y-4 mb-6">
+        <div className="space-y-4 mb-6 px-8 sm:px-16">
           
           {/* To Field */}
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1.5">
-              To
+            <label className="block text-xs font-medium text-stone-300 mb-2">
+            To
             </label>
-            <div className="rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] px-4 py-3.5 focus-within:border-[#D4A038]">
+            <div className="relative flex items-center rounded-2xl border border-[#B08D2A]/60 bg-[#0B2C1A]/80 px-4 py-3.5">
               <input
                 type="text"
                 value={toName}
                 onChange={(e) => setToName(e.target.value)}
                 placeholder="Recipient name"
-                className="w-full bg-transparent text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none"
+                className="w-full bg-transparent text-xs sm:text-sm text-white focus:outline-none"
               />
             </div>
           </div>
 
           {/* From Field */}
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1.5">
-              From
+            <label className="block text-xs font-medium text-stone-300 mb-2">
+            From
             </label>
-            <div className="rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] px-4 py-3.5 focus-within:border-[#D4A038]">
+            <div className="relative flex items-center rounded-2xl border border-[#B08D2A]/60 bg-[#0B2C1A]/80 px-4 py-3.5">
               <input
                 type="text"
                 value={fromName}
                 onChange={(e) => setFromName(e.target.value)}
                 disabled={sendAnonymously}
                 placeholder="Your name"
-                className="w-full bg-transparent text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none disabled:opacity-50"
+                className="w-full bg-transparent text-xs sm:text-sm text-white focus:outline-none"
               />
             </div>
           </div>
@@ -126,40 +144,43 @@ export default function RecipientDetailsPage() {
               />
             </button>
           </div>
-
-        </div>
-
         {/* Submit Button */}
         <button
           onClick={handleContinue}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#B88E2C] py-4 text-sm font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
+          className="flex w-full items-center  justify-center gap-2 rounded-2xl
+           bg-[#B88E2C] py-4 text-sm font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
         >
           <span>Continue To Media</span>
-          <ArrowRight className="h-4 w-4" />
         </button>
+        </div>
+
+
 
       </div>
 
-      {/* RODAPÉ FIXO - Preview */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-emerald-800/60 bg-[#082214]/95 px-5 py-4 backdrop-blur-md">
-        <div className="w-full max-w-md mx-auto">
+      {/* Rodapé Fixo - Abre o Modal ao Clicar */}
+      <footer className="fixed bottom-0 left-0 right-0 z-40 flex justify-center bg-[#061B10]/90 px-4 py-4 border-t border-[#B08D2A]/30 backdrop-blur-md">
+        <div className="w-full max-w-sm">
           <button
+            type="button"
             onClick={() => setIsPreviewOpen(true)}
-            className="flex w-full items-center justify-between rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] px-5 py-3.5 text-xs font-semibold text-stone-200 hover:bg-[#103822] transition-all"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0B2C1A] border border-[#B08D2A]/60 py-3 text-center text-xs font-medium text-stone-200 transition-all hover:bg-[#0E351F]"
           >
             <span>Preview</span>
-            <Eye className="h-4 w-4 text-stone-300" />
+            <Eye className="h-4 w-4 text-[#B08D2A]" />
           </button>
         </div>
-      </div>
+      </footer>
 
-      {/* Modal de Prévia */}
-      <RealTimePreviewModal
+
+      {/* COMPONENTE MODAL DE PREVIEW */}
+      <CardPreviewModal
         isOpen={isPreviewOpen}
         onClose={() => setIsPreviewOpen(false)}
-        toName={toName}
-        fromName={fromName}
-        isAnonymous={sendAnonymously}
+        cardImageSrc="/images/card-template.svg" // Insira aqui o caminho real do seu arquivo SVG
+        title={customTitle || 'My Green Diamond'}
+        occasion={getSelectedLabel()}
+        onChangeTemplate={() => alert('Change Template Clicked')}
       />
 
     </main>

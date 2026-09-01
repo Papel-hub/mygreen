@@ -39,12 +39,10 @@ export default function AddPersonalMediaPage() {
   const router = useRouter();
 
   // Estado da aba selecionada no topo
-  const [selectedMediaType, setSelectedMediaType] = useState<'text' | 'audio' | 'photo' | 'video'>('photo');
+  const [selectedMediaType, setSelectedMediaType] = useState<'text' | 'audio' | 'photo' | 'video'>('text');
 
   // Estados individuais dos conteúdos
-  const [textMessage, setTextMessage] = useState(
-    'You Are My Today And All Of My Tomorrows. This Emerald Shines With Only A Fraction Of Your Brilliant Light.'
-  );
+  const [textMessage, setTextMessage] = useState('');
   const [audioData, setAudioData] = useState<{ duration: string; url: string } | null>({
     duration: '0:01',
     url: 'sample-audio-url',
@@ -101,12 +99,9 @@ export default function AddPersonalMediaPage() {
             className="object-cover object-center opacity-30" // Ajuste a opacidade como preferir
             />
         </div>
-
-      <div className="relative z-10 w-full max-w-md mx-auto px-5 pt-6 pb-28">
-        
         {/* Header */}
-        <header className="flex items-center justify-between mb-6">
-          <button
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">           <button
             onClick={() => router.back()}
             className="flex h-10 w-10 items-center justify-center
             border-[#B08D2A] bg-[#0B2C1A] hover:bg-[#0E351F]
@@ -122,13 +117,15 @@ export default function AddPersonalMediaPage() {
           </h1>
 
           <div className="text-xs font-medium text-stone-300">
-            Step <span className="text-[#D4A038] font-bold">1</span> of 3
+            Step <span className="text-[#D4A038] font-bold">3</span> of 4
           </div>
         </header>
 
-        {/* Title */}
-        <div className="mb-6">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#D4A038] leading-tight">
+      <div className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
+        
+        {/* Headline */}
+        <div className="mb-6 sm:px-8 px-3">
+          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#B08D2A]">
             Add Personal Media
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-stone-300 font-normal">
@@ -137,12 +134,13 @@ export default function AddPersonalMediaPage() {
         </div>
 
         {/* Media Selector Tabs */}
-        <div className="mb-6">
+        <div className="mb-6 sm:px-14 px-3">
           <label className="block text-xs font-medium text-[#D4A038] mb-3">
             Personal Media
           </label>
 
-          <div className="grid grid-cols-4 gap-2.5 rounded-2xl border border-emerald-800/80 bg-[#0B2C1A]/60 p-2">
+          <div className="grid grid-cols-4 gap-2.5  rounded-2xl border border-emerald-800/80
+           bg-[#0B2C1A]/60 p-2">
             {mediaOptions.map((item) => {
               const Icon = item.icon;
               const isSelected = selectedMediaType === item.id;
@@ -170,7 +168,7 @@ export default function AddPersonalMediaPage() {
 
         {/* ==================== ABA 1: TEXT ONLY ==================== */}
         {selectedMediaType === 'text' && (
-          <div className="mb-6">
+          <div className="mb-6 sm:px-14 px-6">
             <div className="flex items-center justify-between mb-2">
               <label className="text-xs font-medium text-[#D4A038]">
                 Message
@@ -195,7 +193,7 @@ export default function AddPersonalMediaPage() {
 
         {/* ==================== ABA 2: AUDIO ==================== */}
         {selectedMediaType === 'audio' && (
-          <div className="space-y-4 mb-6">
+          <div className="space-y-4 mb-6 sm:px-14 px-6 ">
             {!audioData ? (
               <div className="rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] p-4">
                 <div className="flex items-center justify-between mb-3">
@@ -263,7 +261,7 @@ export default function AddPersonalMediaPage() {
 
         {/* ==================== ABA 3: PHOTO ==================== */}
         {selectedMediaType === 'photo' && (
-          <div className="space-y-4 mb-6">
+          <div className="space-y-4 mb-6 sm:px-14 px-6">
             {!photoUrl ? (
               <div className="rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] p-4">
                 <div className="flex items-center justify-between mb-3">
@@ -312,7 +310,7 @@ export default function AddPersonalMediaPage() {
 
         {/* ==================== ABA 4: VIDEO ==================== */}
         {selectedMediaType === 'video' && (
-          <div className="space-y-4 mb-6">
+          <div className="space-y-4 mb-6 sm:px-14 px-6">
             {!videoUrl ? (
               <div className="rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] p-4">
                 <div className="flex items-center justify-between mb-3">
@@ -337,28 +335,29 @@ export default function AddPersonalMediaPage() {
         )}
 
         {/* Continue Button */}
+        <div className="space-y-4 mb-6 sm:px-14 px-6">
         <button
           onClick={() => router.push('/create-card/review')}
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#B88E2C] py-4 text-sm font-semibold text-white shadow-lg transition-all hover:bg-[#a27c24] active:scale-[0.99]"
         >
           <span>Continue</span>
-          <ArrowRight className="h-4 w-4" />
         </button>
-
-      </div>
-
-      {/* RODAPÉ FIXO - Preview */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-emerald-800/60 bg-[#082214]/95 px-5 py-4 backdrop-blur-md">
-        <div className="w-full max-w-md mx-auto">
-          <button
-            onClick={() => setIsPreviewOpen(true)}
-            className="flex w-full items-center justify-between rounded-2xl border border-emerald-800/80 bg-[#0B2C1A] px-5 py-3.5 text-xs font-semibold text-stone-200 hover:bg-[#103822] transition-all"
-          >
-            <span>Preview</span>
-            <Eye className="h-4 w-4 text-stone-300" />
-          </button>
         </div>
       </div>
+
+      {/* Rodapé Fixo - Abre o Modal ao Clicar */}
+      <footer className="fixed bottom-0 left-0 right-0 z-40 flex justify-center bg-[#061B10]/90 px-4 py-4 border-t border-[#B08D2A]/30 backdrop-blur-md">
+        <div className="w-full max-w-sm">
+          <button
+            type="button"
+            onClick={() => setIsPreviewOpen(true)}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0B2C1A] border border-[#B08D2A]/60 py-3 text-center text-xs font-medium text-stone-200 transition-all hover:bg-[#0E351F]"
+          >
+            <span>Preview</span>
+            <Eye className="h-4 w-4 text-[#B08D2A]" />
+          </button>
+        </div>
+      </footer>
 
       {/* Modal Gravador de Áudio */}
       <AddAudioModal

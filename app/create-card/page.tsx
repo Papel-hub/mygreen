@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { 
   ArrowLeft, 
   Smartphone, 
@@ -10,7 +11,8 @@ import {
   Sparkles, 
   Scan, 
   Image as ImageIcon, 
-  Layers 
+  Layers,
+  Bell
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -29,7 +31,7 @@ const CARD_OPTIONS: CardOption[] = [
     title: 'Digital Card',
     description: 'Delivered Instantly Via Link, Email Or SMS. Add Text, Audio Or Video.',
     icon: Smartphone,
-    targetPath: '/create-card/digital',
+    targetPath: '/create-card/occasion',
     recommended: true,
   },
   {
@@ -95,12 +97,10 @@ export default function ChooseCardTypePage() {
           className="object-cover object-center opacity-20"
         />
       </div>
-
-      {/* Main Content Container */}
-      <div className="relative z-10 mx-auto w-full max-w-2xl flex-1 px-4 pt-6 pb-28 sm:px-8">
         
         {/* Step Header */}
-        <header className="mb-8 flex items-center justify-between">
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">
           <button 
             type="button"
             onClick={() => router.back()}
@@ -114,13 +114,23 @@ export default function ChooseCardTypePage() {
             Choose Card Type
           </h1>
 
-          <div className="text-xs font-medium text-stone-300">
-            Step <span className="font-bold text-[#B08D2A]">1</span> of 3
-          </div>
+            {/* Notification Icon */}
+            <Link 
+              href="/notifications"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/40 bg-[#0B2C1A]/80 text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A]"
+              aria-label="Notifications"
+            >
+              <Bell className="h-4 w-4" />
+            </Link>
+
         </header>
 
+      {/* Main Content Container */}
+      <div className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
+
+
         {/* Headline */}
-        <div className="mb-6">
+        <div className="mb-6 sm:px-8 px-3">
           <h2 className="font-serif text-2xl font-normal leading-tight text-[#B08D2A] sm:text-3xl">
             How would you like to send it?
           </h2>
@@ -133,7 +143,7 @@ export default function ChooseCardTypePage() {
         <div 
           role="radiogroup" 
           aria-label="Select delivery option for greeting card"
-          className="space-y-3"
+          className="space-y-3 px-6 sm:px-12 max-w-3xl"
         >
           {CARD_OPTIONS.map((option) => {
             const Icon = option.icon;
@@ -194,7 +204,7 @@ export default function ChooseCardTypePage() {
             disabled={!selectedType}
             className={`w-full rounded-2xl border py-3.5 text-center text-xs font-semibold shadow-md transition-all duration-200 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#B08D2A] ${
               selectedType
-                ? 'cursor-pointer border-[#B08D2A] bg-[#B08D2A] text-[#082214] shadow-amber-900/20 hover:bg-[#c6a032] active:scale-[0.99]'
+                ? 'cursor-pointer border-[#B08D2A] bg-[#B08D2A] text-white shadow-amber-900/20 hover:bg-[#c6a032] active:scale-[0.99]'
                 : 'cursor-not-allowed border-[#B08D2A]/30 bg-[#0B2C1A]/50 text-stone-500 opacity-60'
             }`}
           >

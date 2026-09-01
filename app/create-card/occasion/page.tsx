@@ -25,7 +25,7 @@ export default function SelectOccasionPage() {
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/create-card/customize');
+    router.push('/create-card/details');
   };
 
   const getSelectedLabel = () => {
@@ -46,11 +46,8 @@ export default function SelectOccasionPage() {
           className="object-cover object-center opacity-20"
         />
       </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 flex-1 w-full max-w-2xl mx-auto px-4 sm:px-8 pt-6 pb-28">
-        <header className="flex items-center justify-between mb-8">
-          <button 
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">          <button 
             onClick={() => router.back()}
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] active:scale-95 shadow-sm"
           >
@@ -60,11 +57,13 @@ export default function SelectOccasionPage() {
             Create Your Greeting Card
           </h1>
           <div className="text-xs font-medium text-stone-300">
-            Step <span className="text-[#B08D2A] font-bold">1</span> of 3
+            Step <span className="text-[#B08D2A] font-bold">1</span> of 4
           </div>
         </header>
+      {/* Main Content */}
+      <div className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
 
-        <div className="mb-6">
+        <div className="mb-6 sm:px-8 px-3">
           <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#B08D2A]">
             Select Occasion
           </h2>
@@ -73,8 +72,8 @@ export default function SelectOccasionPage() {
           </p>
         </div>
 
-        <form onSubmit={handleContinue} className="space-y-6">
-          <div className="grid grid-cols-2 gap-3">
+        <form onSubmit={handleContinue} className="space-y-6 px-6 sm:px-12 ">
+          <div className="grid sm:grid-cols-2  gap-3">
             {occasions.map((item) => {
               const isSelected = selectedOccasion === item.id;
               return (
@@ -113,7 +112,7 @@ export default function SelectOccasionPage() {
             type="submit"
             className="w-full rounded-2xl bg-[#B08D2A] py-3.5 text-center text-xs sm:text-sm font-semibold text-white shadow-md transition-all hover:bg-[#a27c24]"
           >
-            Continue To Customize &rarr;
+            Continue To Customize
           </button>
         </form>
       </div>
