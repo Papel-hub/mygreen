@@ -54,17 +54,16 @@ export default function ChooseDeliveryStep() {
           className="object-cover object-center opacity-20"
         />
       </div>
-
-      <div className="relative z-10 flex-1 w-full max-w-xl mx-auto px-4 sm:px-6 pt-6 pb-28 flex flex-col">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-6">
-          <button 
-            onClick={() => router.back()}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] active:scale-95 shadow-sm"
-            aria-label="Voltar"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </button>
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+          border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">
+            <button 
+              type="button"
+              onClick={() => router.back()}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] shadow-sm transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] active:scale-95"
+              aria-label="Go back to previous step"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
 
           <h1 className="text-sm sm:text-base font-medium text-stone-100">
             Choose Delivery
@@ -75,21 +74,25 @@ export default function ChooseDeliveryStep() {
           </div>
         </header>
 
-        {/* Título e Seção */}
-        <div className="mb-4">
-          <h2 className="font-serif text-xl sm:text-2xl font-normal text-[#B08D2A] leading-tight">
+      {/* Main Content Container */}
+      <div className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
+
+
+        {/* Headline */}
+        <div className="mb-6 sm:px-8 px-3">
+          <h2 className="font-serif text-2xl font-normal leading-tight text-[#B08D2A] sm:text-3xl">
             How should we deliver?
           </h2>
-          <p className="mt-0.5 text-xs text-stone-300 font-normal">
+          <p className="mt-1.5 text-xs font-normal text-stone-300 sm:text-sm">
             Choose How You&apos;d Like To Deliver Your Greeting Card.
           </p>
-          <span className="inline-block mt-3 text-xs font-semibold text-stone-300">
+          <span className="mt-1.5 text-xs font-normal text-stone-300 sm:text-sm">
             Digital Delivery
           </span>
         </div>
 
         {/* Lista de Métodos de Entrega */}
-        <div className="space-y-2.5">
+        <div className="space-y-3 px-6 sm:px-12 max-w-3xl">
           {deliveryOptions.map((option) => {
             const Icon = option.icon;
             const isSelected = selectedMethod === option.id;
@@ -134,15 +137,18 @@ export default function ChooseDeliveryStep() {
         </div>
       </div>
 
-      {/* Footer com Botão Continue */}
-      <footer className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-[#061B10]/95 px-4 py-4 border-t border-[#B08D2A]/30 backdrop-blur-md">
-        <div className="w-full max-w-xl">
+      {/* Fixed Sticky Footer */}
+      <footer className="fixed bottom-0 left-0 right-0 z-50 flex justify-center border-t border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md">
+        <div className="w-full max-w-md">
           <button
             type="button"
             onClick={handleContinue}
-            className="w-full rounded-2xl bg-[#B08D2A] border border-[#B08D2A] py-3.5 text-center text-xs sm:text-sm font-semibold text-[#082214] hover:bg-[#c6a032] active:scale-[0.99] transition-all shadow-md shadow-amber-900/20"
+            className="w-full rounded-2xl border py-3.5 text-center text-xs font-semibold shadow-md transition-all duration-200 sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#B08D2A] ${
+                ? 'cursor-pointer border-[#B08D2A] bg-[#B08D2A] text-white shadow-amber-900/20 hover:bg-[#c6a032] active:scale-[0.99]'
+                : 'cursor-not-allowed border-[#B08D2A]/30 bg-[#0B2C1A]/50 text-stone-500 opacity-60'
+            "
           >
-            Continue
+            Continue 
           </button>
         </div>
       </footer>

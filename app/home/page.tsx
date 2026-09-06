@@ -12,10 +12,10 @@ import {
   Store, 
   Flower2, 
   Plus, 
-  Bell, 
-  Diamond 
+  User 
 } from 'lucide-react';
-
+import { getAuth, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import { app } from '@/lib/firebase/config'; 
 import HeroBanner from './components/HeroBanner';
 import ServicesGrid from './components/ServicesGrid';
 import UpcomingDates from './components/UpcomingDates';
@@ -25,14 +25,27 @@ const NAV_ITEMS = [
   { name: 'Home', icon: HomeIcon, href: '/home' },
   { name: 'Cards', icon: CreditCard, href: '/choose-card' },
   { name: 'Store', icon: Store, href: '/store' },
-  { name: 'Bouquets', icon: Flower2, href: '/bouquets' },
+  { name: 'Bouquets', icon: Flower2, href: '/add-bouquet/shops' },
+  { name: 'Perfil', icon: User, href: '/perfil' },
+  { name: 'Help', icon: User, href: '/perfil' },
+
 ];
 
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const pathname = usePathname();
 
-  // Fecha a sidebar ao apertar a tecla ESC
+  // Detecta usuário autenticado com Firebase
+  useEffect(() => {
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Fecha a sidebar ao pressionar a tecla ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && sidebarOpen) {
@@ -43,7 +56,7 @@ export default function HomePage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [sidebarOpen]);
 
-  // Previne scroll do body no mobile quando a sidebar estiver aberta
+  // Previne o scroll da página no mobile quando a sidebar estiver aberta
   useEffect(() => {
     if (sidebarOpen) {
       document.body.style.overflow = 'hidden';
@@ -55,7 +68,7 @@ export default function HomePage() {
   return (
     <div className="relative flex min-h-dvh w-full select-none overflow-x-hidden bg-[#082214] font-sans text-white">
       
-      {/* Imagem de Fundo Otimizada */}
+      {/* Imagem de Fundo de Textura */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <Image
           src="/images/img1.svg"
@@ -67,7 +80,7 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Overlay para Mobile quando Sidebar estiver aberta */}
+      {/* Backdrop para Mobile */}
       {sidebarOpen && (
         <div 
           onClick={() => setSidebarOpen(false)}
@@ -77,7 +90,7 @@ export default function HomePage() {
       )}
 
       {/* ========================================================= */}
-      {/* SIDEBAR (DESKTOP & MOBILE DRAWER)                         */}
+      {/* SIDEBAR NAVIGATION                                       */}
       {/* ========================================================= */}
       <aside 
         aria-label="Sidebar Navigation"
@@ -87,21 +100,21 @@ export default function HomePage() {
       >
         <div>
           {/* Header da Sidebar */}
-          <div className="mb-10 flex items-center justify-between">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="px-2 font-serif text-2xl font-normal text-stone-100">
+              Menu
+            </h2>
+            {/* Botão de Fechar Apenas no Mobile */}
             <button 
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A]"
-              aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+              onClick={() => setSidebarOpen(false)}
+              className="flex h-10 w-10 items-center justify-center rounded-xl  shadow-lg shadow-[#D4A038]/10 border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] lg:hidden"
+              aria-label="Close menu"
             >
-              {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <X className="h-5 w-5" />
             </button>
           </div>
 
-          <h2 className="mb-8 px-2 font-serif text-2xl font-normal text-stone-100">
-            Menu
-          </h2>
-
-          {/* Navegação Principal */}
+          {/* Lista de Navegação */}
           <nav className="space-y-3">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
@@ -114,7 +127,7 @@ export default function HomePage() {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-4 rounded-2xl px-4 py-3.5 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[#B08D2A] ${
                     isActive 
-                      ? 'border border-[#B08D2A]/40 bg-[#0B2C1A] text-[#B08D2A] shadow-sm' 
+                      ? 'border border-[#B08D2A]/40 bg-[#0B2C1A] text-[#B08D2A]  shadow-lg shadow-[#D4A038]/10' 
                       : 'text-stone-300 hover:bg-[#0B2C1A]/50 hover:text-white'
                   }`}
                 >
@@ -126,12 +139,12 @@ export default function HomePage() {
           </nav>
         </div>
 
-        {/* Botão de Criação Rápida na Sidebar */}
+        {/* Botão Ação Rápida */}
         <div className="pt-6">
           <Link
             href="/create-card"
             onClick={() => setSidebarOpen(false)}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#B08D2A] text-white shadow-lg transition-all hover:bg-[#967622] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] focus:ring-offset-2 focus:ring-offset-[#061B10] active:scale-95"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#B08D2A] text-white  shadow-lg shadow-[#D4A038]/10 transition-all hover:bg-[#967622] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] focus:ring-offset-2 focus:ring-offset-[#061B10] active:scale-95"
             aria-label="Create new card"
           >
             <Plus className="h-6 w-6 stroke-[2.5]" />
@@ -151,20 +164,26 @@ export default function HomePage() {
             {/* Botão Toggle Mobile */}
             <button 
               onClick={() => setSidebarOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] lg:hidden"
+              className="flex h-10 w-10 items-center  shadow-lg shadow-[#D4A038]/10 justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] lg:hidden"
               aria-label="Open sidebar menu"
             >
               <Menu className="h-5 w-5" />
             </button>
 
-            {/* User Greeting Box */}
-            <div className="flex items-center gap-3.5 rounded-2xl border border-[#B08D2A]/40 bg-[#0B2C1A]/80 px-4 py-2.5 shadow-sm backdrop-blur-sm">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#B08D2A]/60 bg-[#082214] text-[#B08D2A]">
-                <Diamond className="h-4 w-4" />
+            {/* Saudação e Logo do Usuário */}
+            <div className="flex items-center gap-3.5 rounded-2xl border border-[#B08D2A]/40 bg-[#0B2C1A]/80 px-4 py-2.5 shadow-lg shadow-[#D4A038]/10 backdrop-blur-sm">
+              <div className="relative h-10 w-10 overflow-hidden">
+                <Image
+                  src="/images/logo2.svg" 
+                  alt="Gold Shamrock Diamond Logo"
+                  fill
+                  priority
+                  className="object-contain p-1"
+                />
               </div>
               <div>
                 <h1 className="text-xs sm:text-sm font-medium text-[#B08D2A]">
-                  Good Morning, User
+                  Good Morning, {user?.displayName?.split(' ')[0] || '@Ghost'}
                 </h1>
                 <p className="text-[10px] text-stone-400 sm:text-xs">
                   Create, Gift, And Connect.
@@ -172,24 +191,29 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Notification Icon */}
+            {/* Notificações */}
             <Link 
-              href="/notifications"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/40 bg-[#0B2C1A]/80 text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A]"
-              aria-label="Notifications"
+              href="/perfil"
+              className="w-10 h-10 rounded-full overflow-hidden border border-[#B08D2A]/40  shadow-lg shadow-[#D4A038]/10"
             >
-              <Bell className="h-4 w-4" />
+              <Image
+                src={user?.photoURL || '/images/avatar.jpg'}
+                alt="Avatar"
+                width={40}
+                height={40}
+                className="object-cover"
+              />
             </Link>
 
           </header>
 
-          {/* Seções de Conteúdo */}
+          {/* Seções Principais */}
           <HeroBanner />
           <ServicesGrid />
           <UpcomingDates />
           <RecentOrders />
 
-          {/* Footer Branding */}
+          {/* Rodapé */}
           <footer className="pt-6 pb-2 text-center text-[10px] text-stone-500">
             &copy; {new Date().getFullYear()} Ireland, My Green Diamond.
           </footer>
