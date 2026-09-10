@@ -25,9 +25,9 @@ const NAV_ITEMS = [
   { name: 'Home', icon: HomeIcon, href: '/home' },
   { name: 'Cards', icon: CreditCard, href: '/gift-cards' },
   { name: 'Store', icon: Store, href: '/store' },
-  { name: 'Bouquets', icon: Flower2, href: '/add-bouquet/shops' },
+  { name: 'Bouquets', icon: Flower2, href: '/bouquets' },
   { name: 'Perfil', icon: User, href: '/perfil' },
-  { name: 'Help', icon: User, href: '/perfil' },
+  { name: 'Help', icon: User, href: '/help' },
 ];
 
 export default function HomePage() {
