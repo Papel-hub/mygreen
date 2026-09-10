@@ -9,7 +9,6 @@ import {
   Star, 
   Clock, 
   Bike, 
-  XCircle 
 } from 'lucide-react';
 
 interface Driver {
@@ -121,7 +120,7 @@ export default function ChooseDriverPage() {
                 <button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}
-                  className={`flex-1 min-w-[100px] rounded-2xl border px-3 py-2.5 text-[11px] font-semibold transition-all ${
+                  className={`flex-1 min-w-25 rounded-2xl border px-3 py-2.5 text-[11px] font-semibold transition-all ${
                     isActive
                       ? 'border-[#B08D2A] bg-[#B08D2A] text-white shadow-md'
                       : 'border-[#B08D2A]/30 bg-[#061B10]/80 text-stone-300 hover:border-[#B08D2A]/60'
@@ -218,7 +217,7 @@ export default function ChooseDriverPage() {
         {/* Footer Decline Area */}
         <div className="mt-8 pt-4 text-center">
           <p className="mb-3 text-[11px] text-stone-300">
-            Waiting For More? You'll Be Notified As Offers Arrive.
+            Waiting For More? You&apos;ll Be Notified As Offers Arrive.
           </p>
           <button className="w-full rounded-2xl bg-[#C84B31] py-3.5 text-xs font-semibold text-white shadow-md transition-all hover:bg-[#A83D27] active:scale-95">
             Decline All & Choose Another Method

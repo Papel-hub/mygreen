@@ -114,7 +114,7 @@ export default function ChooseCardTypePage() {
             Choose Card Type
           </h1>
 
-            {/* Notification Icon */}
+            {/* Notification Icon 
             <Link 
               href="/notifications"
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/40 bg-[#0B2C1A]/80 text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A]"
@@ -122,7 +122,7 @@ export default function ChooseCardTypePage() {
             >
               <Bell className="h-4 w-4" />
             </Link>
-
+*/}
         </header>
 
       {/* Main Content Container */}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   ArrowLeft, 
   Star, 
@@ -25,6 +25,7 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState('standard');
   const [expressDelivery, setExpressDelivery] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   const basePrice = 65;
   const currentSizeObj = SIZES.find((s) => s.id === selectedSize);
@@ -46,23 +47,29 @@ export default function ProductDetailPage() {
           className="object-cover object-center opacity-20"
         />
       </div>
+ {/* Step Header */}
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">
+          <button 
+            type="button"
+            onClick={() => router.back()}
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] shadow-sm transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] active:scale-95"
+            aria-label="Go back to previous step"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col justify-between px-4 py-6 sm:px-6">
-        <div>
-          {/* Header */}
-          <header className="mb-6 flex items-center justify-between">
-            <Link
-              href="/add-bouquet/shop-details"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A]"
-              aria-label="Go back"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-            <h1 className="text-base font-semibold text-stone-100 sm:text-lg">
+          <h1 className="text-sm font-medium text-stone-100 sm:text-base">
               Flower Details
             </h1>
             <div className="w-10" />
           </header>
+      <main className="relative px-8 z-10 mx-auto w-full max-w-4xl flex-1 pt-6 pb-28 sm:px-8">
+
+
+        {/* Headline */}
+        <div className="mb-6 sm:px-8 px-3">
+       
 
           {/* Media Player Container */}
           <div className="relative mb-6 h-56 w-full overflow-hidden rounded-2xl border border-[#B08D2A]/30 bg-[#0B2C1A]">
@@ -98,19 +105,19 @@ export default function ProductDetailPage() {
 
           {/* Description */}
           <p className="mb-4 text-xs leading-relaxed text-stone-300">
-            A luxurious arrangement of deep red roses, soft eucalyptus and delicate baby's breath — hand-tied in premium wrap.
+            A luxurious arrangement of deep red roses, soft eucalyptus and delicate baby&apos;s breath — hand-tied in premium wrap.
           </p>
 
           {/* Ingredients/Tags */}
           <div className="mb-5 flex flex-wrap items-center gap-2 text-[10px]">
-            <span className="rounded-full border border-[#B08D2A]/30 bg-[#0B2C1A]/80 px-3 py-1 text-stone-300 backdrop-blur-sm">
-              🌹 Red roses
+            <span className="rounded-full border justify-center border-[#B08D2A]/30 bg-[#0B2C1A]/80 px-3 py-1 text-stone-300 backdrop-blur-sm">
+              <Flower2 className="h-3 w-3" /> Red roses
             </span>
             <span className="rounded-full border border-[#B08D2A]/30 bg-[#0B2C1A]/80 px-3 py-1 text-stone-300 backdrop-blur-sm">
               🌿 Eucalyptus
             </span>
             <span className="rounded-full border border-[#B08D2A]/30 bg-[#0B2C1A]/80 px-3 py-1 text-stone-300 backdrop-blur-sm">
-              🤍 Baby's breath
+              🤍 Baby&apos;s breath
             </span>
           </div>
 
@@ -219,9 +226,11 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Footer Fixed Action Area */}
-        <div className="border-t border-[#B08D2A]/20 bg-[#082214] pt-4">
-          <div className="mb-3 flex items-center justify-between text-sm">
+        {/* Footer Fixed Action Area */} 
+          <div className="mt-8 w-full px-10 sm:px-10">
+        <div className="w-full border-t border-[#B08D2A]/20 rounded-2xl bg-[#082214] pt-4">      
+
+          <div className="mb-3 flex px-5 items-center justify-between text-sm">
             <span className="text-stone-400">Total</span>
             <span className="font-bold text-[#B08D2A]">€{totalPrice}</span>
           </div>
@@ -230,6 +239,7 @@ export default function ProductDetailPage() {
             <Flower2 className="h-4 w-4" />
             Add Bouquet To Card
           </button>
+        </div>
         </div>
       </main>
     </div>

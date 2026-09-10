@@ -129,7 +129,7 @@ export default function ChooseDeliveryStep() {
                 </div>
 
                 {isSelected && (
-                  <CheckCircle2 className="h-5 w-5 text-[#B08D2A] fill-[#B08D2A]/20 flex-shrink-0" />
+                  <CheckCircle2 className="h-5 w-5 text-[#B08D2A] fill-[#B08D2A]/20 shrink-0" />
                 )}
               </div>
             );

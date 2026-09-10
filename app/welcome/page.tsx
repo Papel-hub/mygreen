@@ -98,7 +98,7 @@ export default function WelcomeOnboarding() {
             Premium Greeting Cards, Gift Cards &amp; Bouquet Delivery
           </p>
 
-          <div className="mt-8 w-full px-12 max-w-2xl sm:px-12">
+          <div className="mt-8 w-full px-10 sm:px-12">
             <button
               onClick={handleNextStep}
               className="w-full rounded-2xl bg-[#B08D2A] py-3.5 sm:py-4 text-center text-sm sm:text-base font-semibold text-white shadow-md transition-all hover:bg-[#a27c24] active:scale-[0.99]"

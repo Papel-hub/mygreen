@@ -23,12 +23,11 @@ import RecentOrders from './components/RecentOrders';
 
 const NAV_ITEMS = [
   { name: 'Home', icon: HomeIcon, href: '/home' },
-  { name: 'Cards', icon: CreditCard, href: '/choose-card' },
+  { name: 'Cards', icon: CreditCard, href: '/gift-cards' },
   { name: 'Store', icon: Store, href: '/store' },
   { name: 'Bouquets', icon: Flower2, href: '/add-bouquet/shops' },
   { name: 'Perfil', icon: User, href: '/perfil' },
   { name: 'Help', icon: User, href: '/perfil' },
-
 ];
 
 export default function HomePage() {

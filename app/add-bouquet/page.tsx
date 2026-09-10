@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -46,6 +48,7 @@ const SHOPS = [
 
 export default function ShopsPage() {
   const [favorites, setFavorites] = useState<number[]>([]);
+  const router = useRouter();
 
   const toggleFavorite = (id: number) => {
     setFavorites((prev) =>
@@ -67,22 +70,28 @@ export default function ShopsPage() {
         />
       </div>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col justify-between px-4 py-6 sm:px-6">
-        <div>
-          {/* Header */}
-          <header className="mb-6 flex items-center justify-between">
-            <Link
-              href="/add-bouquet/location"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A]"
-              aria-label="Go back"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-            <h1 className="text-base font-semibold text-stone-100 sm:text-lg">
+        {/* Step Header */}
+        <header className="mb-8 flex w-full sm:px-12 items-center border-b 
+        border-[#B08D2A]/30 bg-[#061B10]/95 px-4 py-4 backdrop-blur-md  justify-between">
+          <button 
+            type="button"
+            onClick={() => router.back()}
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#B08D2A]/60 bg-[#0B2C1A] text-[#B08D2A] shadow-sm transition-all hover:bg-[#0E351F] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] active:scale-95"
+            aria-label="Go back to previous step"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+
+          <h1 className="text-sm font-medium text-stone-100 sm:text-base">
               Flower Shops
             </h1>
             <div className="w-10" />
-          </header>
+          </header>   
+      <main className="relative px-8 z-10 mx-auto w-full max-w-6xl flex-1 pt-6 pb-28 sm:px-8">
+
+
+        {/* Headline */}
+        <div className="mb-6 sm:px-8 px-3">
 
           {/* Delivery Location Banner */}
           <div className="mb-4 flex items-center justify-between rounded-2xl border border-[#B08D2A]/40 bg-[#0B2C1A]/80 p-3.5 backdrop-blur-sm">
@@ -116,7 +125,7 @@ export default function ShopsPage() {
           </div>
 
           {/* Shops Grid */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid  sm:grid-cols-3 gap-3">
             {SHOPS.map((shop) => {
               const isFav = favorites.includes(shop.id);
               return (
@@ -164,7 +173,6 @@ export default function ShopsPage() {
                       </p>
                     </div>
 
-                    {/* Delivery Badge */}
                     <div className="mt-2.5 flex items-center gap-1.5 rounded-xl border border-[#B08D2A]/20 bg-[#061B10]/80 p-1.5 text-[9px] text-stone-300">
                       <Clock className="h-3 w-3 text-[#B08D2A]" />
                       <div>
@@ -180,9 +188,11 @@ export default function ShopsPage() {
         </div>
 
         {/* Action Button */}
-        <div className="pt-6">
-          <button className="flex h-12 w-full items-center justify-center rounded-2xl bg-[#B08D2A] text-sm font-semibold text-white shadow-lg transition-all hover:bg-[#967622] focus:outline-none focus:ring-2 focus:ring-[#B08D2A] focus:ring-offset-2 focus:ring-offset-[#082214] active:scale-95">
-            Continue
+          <div className="mt-8 w-full px-10 sm:px-12">
+          <button 
+              className="w-full rounded-2xl bg-[#B08D2A] py-3.5 text-center text-sm sm:text-base font-semibold text-white shadow-md transition-all hover:bg-[#a27c24] active:scale-[0.99]"
+            >
+              Continue
           </button>
         </div>
       </main>
